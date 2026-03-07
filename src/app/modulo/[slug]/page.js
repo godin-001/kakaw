@@ -19,7 +19,7 @@ export default function ModuloPage() {
 
   return (
     <main
-      className="min-h-screen flex flex-col px-4 py-5 max-w-sm mx-auto"
+      className="min-h-screen flex flex-col px-4 py-5 max-w-[26.5rem] mx-auto"
       style={{ background: tema.gradient }}
     >
       {/* Barra de progreso */}
@@ -75,9 +75,11 @@ export default function ModuloPage() {
             border: `1px solid ${tema.accent}40`,
           }}
         >
-          <p className="text-sm leading-relaxed" style={{ color: tema.texto }}>
-            {modulo.kakawDice}
-          </p>
+          {modulo.kakawDice.split('\n\n').map((parrafo, i) => (
+            <p key={i} className={`text-sm leading-relaxed ${i > 0 ? 'mt-2' : ''}`} style={{ color: tema.texto }}>
+              {parrafo}
+            </p>
+          ))}
         </div>
       </div>
 

@@ -45,7 +45,7 @@ export default function ResultadoPage() {
 
   return (
     <main className="min-h-screen flex flex-col items-center justify-center px-4 py-10">
-      <div className="max-w-sm w-full space-y-5">
+      <div className="max-w-[26.5rem] w-full space-y-5">
 
         {/* Kakaw + score */}
         <div className="card text-center border-orange-500/40 bg-orange-900/10 space-y-4">

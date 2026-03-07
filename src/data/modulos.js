@@ -5,7 +5,6 @@ export const modulos = [
     titulo: "El Trueque",
     emoji: "🌽",
     badgeNombre: "Experto en Trueque",
-    color: "amber",
     tema: {
       gradient: 'linear-gradient(160deg, #1C0F00 0%, #2D1A06 50%, #0E0800 100%)',
       accent: '#D97706',
@@ -14,37 +13,28 @@ export const modulos = [
       sombra: 'rgba(217, 119, 6, 0.4)',
       texto: '#FCD34D',
     },
-    kakawDice: "Antes no había dinero. Si querías pescado y tenías maíz, necesitabas encontrar a alguien que tuviera pescado Y quisiera maíz. Al mismo tiempo. Qué estrés.",
+    kakawDice: "Antes no había dinero. Si querías algo, lo intercambiabas directamente.\n\n¿Te imaginas pagar tu café de la mañana con tres aguacates y medio kilo de tortillas? Eso era el trueque.",
     puntosClave: [
-      "El trueque = intercambio directo sin dinero",
-      "Problema: 'doble coincidencia de deseos' — casi imposible de lograr",
-      "¿Pagarías tu café con tres aguacates y medio kilo de tortillas? Eso era la vida.",
+      "Trueque = intercambio directo de productos sin usar dinero. Funcionó por miles de años... hasta que dejó de funcionar.",
+      "El problema: necesitabas encontrar a alguien que tuviera lo que querías Y quisiera lo que tú tenías. Al mismo tiempo. Qué estrés.",
+      "Esto se llama la 'doble coincidencia de deseos' — era un caos logístico que casi nada se intercambiara.",
     ],
-    historia: `Imagínate que vives en el año 3000 a.C. en lo que hoy es México central. Tienes una milpa llena de maíz y tu familia come bien, pero tu vecino tiene pescado fresco del río y tú llevas semanas sin probarlo.
-
-La solución parece simple: vas con él y le propones cambiar maíz por pescado. Pero él ya tiene suficiente maíz. No quiere más. Quiere obsidiana para hacer herramientas.
-
-Bienvenido al caos del trueque: el primer sistema de intercambio de la humanidad. Funcionaba, sí, pero tenía un problema enorme llamado "doble coincidencia de deseos". Para que el intercambio funcionara, tú necesitabas exactamente lo que el otro tenía, y el otro necesitaba exactamente lo que tú ofrecías. Al mismo tiempo. En el mismo lugar.
-
-Era un milagro logístico que algo se intercambiara.
-
-¿Puedes imaginarte intentando pagar tu café de la mañana con tres aguacates y medio kilo de tortillas?`,
-    pregunta: "¿Cuál era el principal problema del trueque?",
+    pregunta: "¿Qué es el trueque?",
     opciones: [
       {
-        texto: "Necesitabas encontrar a alguien que tuviera lo que querías Y quisiera lo que tú tenías — al mismo tiempo",
+        texto: "Vender productos en un tianguis",
+        correcto: false,
+        feedback: "El tianguis es un mercado, pero ahí también se hacía trueque. La respuesta va más allá del lugar.",
+      },
+      {
+        texto: "Intercambiar productos sin usar dinero",
         correcto: true,
-        feedback: "¡Exacto! La 'doble coincidencia de deseos' hacía casi imposible el comercio. La humanidad necesitaba urgentemente una mejor solución. 🌽",
+        feedback: "¡Exacto! Intercambio directo, sin billetes ni monedas. ¿Tres aguacates por un café? Bienvenido al trueque. 🌽",
       },
       {
-        texto: "Era muy eficiente, todos intercambiaban felices todo el tiempo",
+        texto: "Un tipo de salsa para tacos",
         correcto: false,
-        feedback: "¡Para nada! El trueque era un caos logístico. Casi nadie tenía lo que necesitabas exactamente cuando lo necesitabas.",
-      },
-      {
-        texto: "El gobierno lo prohibió porque perdía control",
-        correcto: false,
-        feedback: "Todavía no había gobierno central, pero igual el trueque tenía sus propios problemas enormes sin necesitar que nadie lo prohibiera.",
+        feedback: "Una buena salsa no tiene precio... pero tampoco es dinero. Aunque en ciertos contextos quizás debería serlo.",
       },
     ],
   },
@@ -54,7 +44,6 @@ Era un milagro logístico que algo se intercambiara.
     titulo: "Dinero Mercancía",
     emoji: "🍫",
     badgeNombre: "Conocedor del Kakaw",
-    color: "yellow",
     tema: {
       gradient: 'linear-gradient(160deg, #001A1A 0%, #0D2E28 50%, #0E0800 100%)',
       accent: '#0D9488',
@@ -63,39 +52,28 @@ Era un milagro logístico que algo se intercambiara.
       sombra: 'rgba(20, 184, 166, 0.4)',
       texto: '#5EEAD4',
     },
-    kakawDice: "Aquí es donde entro yo. Los aztecas usaban granos de cacao como dinero. Un tamal = 3 granos. Un guajolote = 200 granos. Yo era la lana. Literalmente.",
+    kakawDice: "Aquí es donde entro yo. Los humanos necesitaban algo que TODOS quisieran. Algo universal. ¿Y qué mejor que el cacao?\n\nLos aztecas usaban granos de cacao como dinero. Yo era la lana. Literalmente.",
     puntosClave: [
-      "El cacao era dinero: escaso, deseado por todos y difícil de falsificar",
-      "Pasaba igual en el mundo: sal en Roma (de ahí 'salario'), conchas en Asia, ganado en África",
-      "Resolvió el caos del trueque — pero tenía un problema: el cacao se pudre",
+      "Un tamal = 3 granos de cacao · Un guajolote = 200 granos. Yo era la lana. Literalmente.",
+      "¿Por qué funcionaba? Todos lo querían · Era escaso · Se podía dividir en granos individuales.",
+      "En otras partes del mundo: sal en Roma (de ahí 'salario'), conchas en Asia, ganado en África.",
     ],
-    historia: `Fue entonces cuando nuestra gente tuvo una idea brillante: ¿qué tal si usamos algo que TODOS quieran de todas formas como medio de intercambio?
-
-En Mesoamérica, esa cosa era el cacao. El kakaw. No el chocolate en polvo del súper — las semillas de cacao puras, sagradas, valiosas. Los mexicas las usaban para comprar tamales, mantas, trabajo, incluso para pagar impuestos al tlatoani.
-
-"Tengo kakaw" significaba "tengo poder adquisitivo". Era literalmente la lana.
-
-En otras partes del mundo pasaba lo mismo con cosas distintas: sal en el Imperio Romano (de ahí viene la palabra "salario"), conchas de cauri en África y Asia, telas en Europa. Todos buscando lo mismo: algo que sea escaso, durable, aceptado por todos y difícil de falsificar.
-
-El dinero mercancía resolvió la doble coincidencia de deseos. Ahora podías vender tu maíz por kakaw, guardar el kakaw, y comprar pescado cuando quisieras. El tiempo y el espacio ya no eran obstáculos.
-
-Pero tenía sus propios problemas: ¿qué pasa cuando el cacao se pudre? ¿O cuando alguien cultiva más y baja su valor? La búsqueda del dinero perfecto continuaba...`,
-    pregunta: "¿Qué tenían en común el cacao, la sal y las conchas como dinero?",
+    pregunta: "¿Qué usaban los aztecas como dinero?",
     opciones: [
       {
-        texto: "Los emitía y controlaba un banco central",
-        correcto: false,
-        feedback: "No había banco central todavía. La comunidad misma decidía qué tenía valor. Era dinero descentralizado — curiosamente parecido a algo que conocerás más adelante 👀",
-      },
-      {
-        texto: "Solo los usaban los nobles y sacerdotes",
-        correcto: false,
-        feedback: "El kakaw circulaba entre todos — desde el mercader hasta el artesano. Era el dinero del pueblo, no solo de la élite.",
-      },
-      {
-        texto: "Eran escasos, aceptados por todos y difíciles de falsificar o producir en exceso",
+        texto: "Granos de cacao",
         correcto: true,
-        feedback: "¡Correcto! Esas son las propiedades del buen dinero. Escasez + aceptación universal + resistencia a la falsificación. Guarda esa lista — la vas a necesitar. 🍫",
+        feedback: "¡Eso es! Un tamal = 3 granos, un guajolote = 200 granos. Yo era la lana. Literalmente. 🍫",
+      },
+      {
+        texto: "Piedras de jade talladas",
+        correcto: false,
+        feedback: "Las piedras de jade eran valiosas, pero no eran la moneda de uso diario. El cacao era más práctico — y más rico.",
+      },
+      {
+        texto: "Likes y seguidores",
+        correcto: false,
+        feedback: "Los aztecas estaban bastante avanzados, pero el algoritmo de Instagram todavía no existía.",
       },
     ],
   },
@@ -105,7 +83,6 @@ Pero tenía sus propios problemas: ¿qué pasa cuando el cacao se pudre? ¿O cua
     titulo: "Metales y Monedas",
     emoji: "🪙",
     badgeNombre: "Guardián de la Casa de Moneda",
-    color: "orange",
     tema: {
       gradient: 'linear-gradient(160deg, #0A0A0A 0%, #1A1500 50%, #0E0800 100%)',
       accent: '#EAB308',
@@ -114,37 +91,28 @@ Pero tenía sus propios problemas: ¿qué pasa cuando el cacao se pudre? ¿O cua
       sombra: 'rgba(234, 179, 8, 0.4)',
       texto: '#FDE68A',
     },
-    kakawDice: "El cacao se pudre. Las conchas se rompen. La sal se disuelve. Llegaron el oro y la plata. No hay resentimientos de mi parte. Los entiendo perfectamente.",
+    kakawDice: "El cacao se pudre. Las conchas se rompen. La sal se disuelve.\n\nLlegaron el oro y la plata. Los metales no se echan a perder, son bonitos y escasos. Ahí perdí protagonismo. Entiendo. No hay resentimientos.",
     puntosClave: [
-      "Los metales no se echan a perder, son escasos y valen igual en cualquier parte del mundo",
-      "México fue POTENCIA mundial de plata — y la primera Casa de Moneda de América fue aquí (1535)",
-      "Dato que pocos saben: México inventó el símbolo $. El dólar lo copió después. De nada, mundo.",
+      "México se volvió POTENCIA de plata — Zacatecas, Guanajuato, San Luis... éramos el productor #1 del mundo.",
+      "En 1535 se fundó la Casa de Moneda de México. La primera de América. El 'peso' se llama así porque el Real de a 8 pesaba cierta cantidad de plata. Literal.",
+      "Dato curioso: México fue el PRIMER país en usar el símbolo $. El dólar lo copió después. De nada, mundo.",
     ],
-    historia: `El cacao se pudre. Las conchas se rompen. La sal se disuelve. La humanidad necesitaba algo más robusto.
-
-Entonces llegaron los metales. El oro y la plata se volvieron el dinero preferido del mundo, no por decreto de ningún rey, sino porque cumplían con algo que el cacao nunca pudo: duraban para siempre, venían en cantidades limitadas de la tierra, podías fundirlos y dividirlos exactamente, y valían igual en México que en China.
-
-En 1535, los españoles establecieron en la Ciudad de México la primera Casa de Moneda de América. Ahí se acuñaba el Real de a Ocho — la moneda que literalmente se usó en todo el mundo durante 300 años. Los piratas del Caribe que ves en las películas peleaban por ellas. Los mercaderes chinos las aceptaban sin chistar. Era la primera moneda verdaderamente global.
-
-El problema: cargar oro era peligroso. Los asaltantes, los naufragios, el peso físico. Así que apareció algo nuevo: dejas tu oro con un orfebre de confianza, y él te da un papel que dice "este papel vale tanto oro". Un pagaré. La primera forma de papel moneda.
-
-Conveniente. Práctico. Y el inicio de algo que cambiaría todo para siempre.`,
-    pregunta: "¿Por qué el oro y la plata se convirtieron en el dinero preferido del mundo?",
+    pregunta: "¿Cuál fue la primera Casa de Moneda de América?",
     opciones: [
       {
-        texto: "Porque son más brillantes y bonitos que las conchas o el cacao",
+        texto: "Estados Unidos (1792)",
         correcto: false,
-        feedback: "La estética ayuda, pero no es suficiente para que algo sea dinero universal. El oro ganó por sus propiedades funcionales, no por cómo se ve.",
+        feedback: "Estados Unidos aún no existía en 1535. La primera Casa de Moneda de América fue aquí, en México. 🇲🇽",
       },
       {
-        texto: "Son escasos, no se oxidan, se pueden dividir con precisión y tienen el mismo valor en cualquier parte del mundo",
+        texto: "Wakanda (fecha desconocida)",
+        correcto: false,
+        feedback: "Wakanda Forever... pero no, la primera fue México en 1535. Y sin vibranio.",
+      },
+      {
+        texto: "México (1535)",
         correcto: true,
-        feedback: "¡Perfecto! Esas cuatro propiedades los hacían el dinero ideal. Curiosamente, Bitcoin comparte todas esas propiedades — y agrega algunas más. 🪙",
-      },
-      {
-        texto: "Porque el rey los eligió y obligó a todos a usarlos",
-        correcto: false,
-        feedback: "En realidad, los metales preciosos se adoptaron orgánicamente en culturas que nunca tuvieron contacto entre sí. No necesitaron un decreto real.",
+        feedback: "¡Correcto! La primera Casa de Moneda de América fue nuestra. Y de paso inventamos el símbolo $. De nada, mundo. 🪙",
       },
     ],
   },
@@ -154,7 +122,6 @@ Conveniente. Práctico. Y el inicio de algo que cambiaría todo para siempre.`,
     titulo: "Papel y Bancos",
     emoji: "💵",
     badgeNombre: "Analista del Sistema",
-    color: "green",
     tema: {
       gradient: 'linear-gradient(160deg, #001020 0%, #0A1A30 50%, #0E0800 100%)',
       accent: '#3B82F6',
@@ -163,39 +130,28 @@ Conveniente. Práctico. Y el inicio de algo que cambiaría todo para siempre.`,
       sombra: 'rgba(59, 130, 246, 0.4)',
       texto: '#93C5FD',
     },
-    kakawDice: "El billete nació como recibo de tu oro. Honesto. Práctico. Hasta que en 1971 Nixon dijo 'el dólar ya no necesita oro'. Y desde entonces el dinero vale... porque sí.",
+    kakawDice: "Las monedas pesaban, cargar plata no era práctico.\n\nSolución: un papel que las REPRESENTARA. Así nació el billete.\n\nAl inicio tenía respaldo real en oro. Hasta que llegó la tentación: si la gente confiaba en el papel... ¿alguien iba a contar el oro?",
     puntosClave: [
-      "Dinero fiat = vale porque el gobierno lo dice, no por ningún respaldo real",
-      "Banxico decide cuánto dinero circula. En 30 años el peso perdió más del 80% de su valor",
-      "Quien controla la impresora, controla tu dinero",
+      "En 1971, Nixon desvinculó al dólar del oro. Dinero fiat = vale porque el gobierno lo dice.",
+      "Banxico (1925) emite los pesos y controla cuánto circula. Cuando necesitan más: lo imprimen. Ellos deciden.",
+      "En 1994, un dólar costaba 3.50 pesos. Hoy más de 17. En 30 años el peso perdió más del 80% de su valor.",
     ],
-    historia: `El papel moneda empezó como algo honesto: un recibo de tu oro. Pero los gobiernos descubrieron algo tentador.
-
-Si la gente confiaba en el papel, ¿quién iba a revisar si realmente había oro suficiente detrás? Poco a poco, los gobiernos fueron imprimiendo más billetes que el oro que tenían. Hasta que en 1971, el presidente Nixon tomó la decisión que cambiaría el dinero para siempre: desvinculó al dólar del oro completamente.
-
-Desde ese momento, el dinero ya no representa nada físico. Es dinero fiat — basado únicamente en la confianza y el decreto del gobierno.
-
-En México, el Banco de México (Banxico) es el responsable de emitir pesos y controlar cuánto circula. Cuando la economía necesita más dinero, lo imprimen. Cuando hay inflación, suben las tasas de interés. Ellos deciden.
-
-¿El resultado? En 1994, un dólar costaba 3.50 pesos. Hoy cuesta más de 17. El peso ha perdido más del 80% de su valor en 30 años. No es un error del sistema — es una función del sistema.
-
-El dinero de papel resolvió el problema de cargar oro. Pero creó uno nuevo: quien controla la impresora, controla tu dinero.`,
-    pregunta: "¿Qué respalda el valor de un billete de $500 pesos mexicanos hoy?",
+    pregunta: "¿Qué se necesita para que un billete tenga valor?",
     opciones: [
       {
-        texto: "La confianza colectiva en el gobierno mexicano y en el Banco de México",
+        texto: "Que el gobierno lo imprima",
+        correcto: false,
+        feedback: "El gobierno imprime el billete, sí, pero eso no le da valor por sí solo. Sin que la gente lo acepte, es papel nada más.",
+      },
+      {
+        texto: "La confianza de la gente",
         correcto: true,
-        feedback: "Exactamente. El dinero moderno es 'fiat' — su valor existe porque colectivamente acordamos que existe. Si esa confianza se rompe, como en Venezuela o Argentina, el dinero colapsa. 💵",
+        feedback: "¡Exacto! El dinero fiat vale porque todos acordamos que vale. Si esa confianza se rompe, el billete se vuelve papel. 💵",
       },
       {
-        texto: "El oro guardado en las bóvedas del Banco de México",
+        texto: "Que tenga muchos colores y hologramas",
         correcto: false,
-        feedback: "Desde 1971, ninguna moneda importante del mundo está respaldada por oro. Eso se llama el 'patrón oro' y Nixon lo eliminó. Tu billete ya no representa metal.",
-      },
-      {
-        texto: "El trabajo y la productividad de los mexicanos que lo ganan",
-        correcto: false,
-        feedback: "El trabajo crea valor, pero no respalda directamente el billete. El Banxico puede imprimir más pesos independientemente de cuánto trabaje la economía.",
+        feedback: "Los hologramas y colores ayudan a evitar falsificaciones, pero no son lo que le da valor. Tu fe colectiva sí.",
       },
     ],
   },
@@ -205,7 +161,6 @@ El dinero de papel resolvió el problema de cargar oro. Pero creó uno nuevo: qu
     titulo: "Dinero Digital",
     emoji: "📱",
     badgeNombre: "Nativo Digital",
-    color: "blue",
     tema: {
       gradient: 'linear-gradient(160deg, #001018 0%, #001E2E 50%, #050E18 100%)',
       accent: '#06B6D4',
@@ -214,39 +169,28 @@ El dinero de papel resolvió el problema de cargar oro. Pero creó uno nuevo: qu
       sombra: 'rgba(6, 182, 212, 0.4)',
       texto: '#67E8F9',
     },
-    kakawDice: "Tu saldo bancario no es tuyo — es un número en la base de datos del banco. En 2008 casi todo colapsa. Ese año alguien publicó 9 páginas que cambiarían todo.",
+    kakawDice: "Llegó internet y el dinero se digitalizó. Ya no cargas billetes, tu saldo es sólo un dato del banco.\n\nPero checa: tu dinero no es un archivo tuyo, es un número en la base de datos y el banco puede bloquearlo, limitarlo o congelarlo cuando quiera.",
     puntosClave: [
-      "Tu dinero en el banco puede bloquearse, limitarse o congelarse cuando ellos quieran",
-      "Crisis 2008: los bancos apostaron con el dinero de sus clientes, perdieron, nadie fue a la cárcel",
-      "Satoshi Nakamoto propuso: dinero digital, sin bancos, sin gobierno, con reglas fijas",
+      "Transferencias, tarjetas, pagos con el celular: un clic y pagas. Muy práctico. Pero tu dinero lo controlan ellos.",
+      "En 2008, el sistema financiero casi colapsa. Los bancos apostaron con el dinero de sus clientes, perdieron y nadie fue a la cárcel.",
+      "Ese año, Satoshi Nakamoto publicó 9 páginas que cambiaron todo: dinero digital, sin bancos, sin que nadie lo controle.",
     ],
-    historia: `A finales del siglo XX llegó internet y el dinero se digitalizó. Ya no necesitas cargar billetes — tu saldo vive en una base de datos del banco. Transferencias SPEI, tarjetas de crédito, pagos con el celular, fintech como Mercado Pago.
-
-El dinero se volvió más conveniente que nunca. Un clic y pagas, transfieres, compras en cualquier parte del mundo.
-
-Pero fíjate bien en lo que en realidad está pasando: tu dinero no es un archivo en tu computadora — es un número en la base de datos de tu banco. Y ese banco puede bloquearlo, limitarlo, congelarlo, o simplemente no estar disponible cuando lo necesitas.
-
-En 2008, el sistema financiero global casi colapsa. Los grandes bancos apostaron con el dinero de sus clientes, perdieron, y los gobiernos los rescataron con dinero de los contribuyentes. Los responsables no fueron a la cárcel. Los clientes perdieron sus ahorros.
-
-Ese año, alguien bajo el seudónimo de Satoshi Nakamoto publicó un documento de 9 páginas. Se llamaba "Bitcoin: A Peer-to-Peer Electronic Cash System". Su propuesta: dinero digital que nadie controla, que no necesita bancos ni gobiernos, cuya cantidad está matemáticamente limitada y cuyas reglas no pueden cambiar por decreto.
-
-No era solo tecnología. Era una respuesta a una pregunta de miles de años: ¿puede existir un dinero que nadie pueda manipular?`,
-    pregunta: "¿Cuál es la diferencia fundamental entre tu dinero en el banco y Bitcoin?",
+    pregunta: "¿Qué cambió cuando el dinero se digitalizó?",
     opciones: [
       {
-        texto: "Ninguna — ambos son digitales y funcionan igual",
-        correcto: false,
-        feedback: "Son muy distintos. Tu dinero bancario es un número en la base de datos de alguien más. Bitcoin es un protocolo matemático que nadie controla.",
-      },
-      {
-        texto: "Bitcoin es para ricos e inversores; el banco es para todos",
-        correcto: false,
-        feedback: "Bitcoin fue diseñado específicamente para personas sin acceso al sistema bancario. Puedes tener Bitcoin con solo un smartphone y conexión a internet — sin cuenta bancaria, sin identificación, sin permiso.",
-      },
-      {
-        texto: "Con Bitcoin tú controlas tu dinero directamente; con el banco, el banco lo controla — tú solo tienes una promesa",
+        texto: "Pasó a ser un número que otros controlan",
         correcto: true,
-        feedback: "¡Exactamente! 'Not your keys, not your coins' es el principio central. Con Bitcoin, si tienes tus llaves privadas, nadie puede bloquear tu dinero. Con el banco, estás a merced de sus políticas. 📱⚡",
+        feedback: "¡Correcto! Tu saldo bancario es un número en la base de datos del banco. Ellos pueden bloquearlo, limitarlo o congelarlo. No es del todo tuyo. 📱",
+      },
+      {
+        texto: "Dejó de depender de los bancos",
+        correcto: false,
+        feedback: "Al contrario — el dinero digital sigue dependiendo 100% de los bancos. Tu cuenta, sus reglas.",
+      },
+      {
+        texto: "Podría hacer lo mismo que tu ex: desaparecer",
+        correcto: false,
+        feedback: "Respuesta incorrecta... aunque algo de razón tiene 😅. Mejor quedarte con Bitcoin, que no desaparece sin tus llaves.",
       },
     ],
   },
@@ -256,7 +200,6 @@ No era solo tecnología. Era una respuesta a una pregunta de miles de años: ¿p
     titulo: "Bitcoin",
     emoji: "₿",
     badgeNombre: "Bitcoiner Novato",
-    color: "orange",
     tema: {
       gradient: 'linear-gradient(160deg, #1A0800 0%, #2D1200 50%, #0E0800 100%)',
       accent: '#F97316',
@@ -265,41 +208,28 @@ No era solo tecnología. Era una respuesta a una pregunta de miles de años: ¿p
       sombra: 'rgba(247, 147, 26, 0.5)',
       texto: '#FED7AA',
     },
-    kakawDice: "Bitcoin es dinero digital que no depende de bancos ni gobiernos. Vive en miles de computadoras a la vez. Solo existirán 21 millones. Nadie lo puede parar ni confiscar.",
+    kakawDice: "Bitcoin es dinero digital que NO depende de bancos ni gobiernos. Vive en una red de miles de computadoras llamada blockchain.\n\nSi alguien intenta hacer trampa, miles de computadoras lo rechazan. Nadie lo controla. Nadie lo puede parar.",
     puntosClave: [
-      "Blockchain = libro de cuentas público que todos pueden ver y nadie puede alterar",
-      "Sin intermediarios · Solo 21 millones · Funciona 24/7/365 sin horario bancario",
-      "Remesas baratas, cuenta sin banco, dinero que nadie puede congelarte — si guardas tus llaves",
+      "Sin intermediarios (tú envías directo) · Limitado (sólo existirán 21 millones) · Funciona 24/7 (no hay 'horario bancario').",
+      "¿Por qué importa? Remesas sin comisiones abusivas. Tu dinero disponible siempre. Nadie puede congelarte la cuenta.",
+      "Por primera vez en la historia: un dinero con escasez garantizada por matemáticas, no por promesas de ningún gobierno.",
     ],
-    historia: `Bitcoin es dinero digital que NO depende de bancos ni gobiernos. Vive en una red de miles de computadoras llamada blockchain.
-
-El blockchain es como un libro de cuentas que todos pueden ver y nadie puede alterar. Si alguien intenta hacer trampa, miles de computadoras lo rechazan automáticamente. No hay jefe, no hay sede central, no hay un botón de apagado.
-
-¿Qué lo hace diferente a todo lo anterior?
-- Sin intermediarios: tú envías directo, sin banco en medio
-- Limitado matemáticamente: solo existirán 21 millones de bitcoins. Nunca más.
-- Funciona 24/7/365: no hay horario bancario, no hay días festivos, no hay "intente más tarde"
-
-¿Por qué importa para ti?
-Remesas sin comisiones abusivas. Tu dinero disponible siempre, desde cualquier país. Nadie puede congelarte la cuenta si tienes tus propias llaves privadas.
-
-Yo, Kakaw, fui dinero antes que el oro. Vi llegar el papel, las tarjetas, y ahora Bitcoin. El dinero siempre evoluciona. Y esta vez, por primera vez en la historia, la escasez está garantizada por matemáticas — no por promesas de ningún gobierno.`,
-    pregunta: "¿Qué hace a Bitcoin fundamentalmente diferente de cualquier otro dinero que ha existido?",
+    pregunta: "¿Qué hace diferente a Bitcoin?",
     opciones: [
       {
-        texto: "Es el único dinero que funciona completamente en internet",
+        texto: "Sólo lo pueden usar los hackers",
         correcto: false,
-        feedback: "El dinero bancario digital también funciona en internet. Lo diferente de Bitcoin no es que sea digital — es que nadie lo controla y su escasez está garantizada por matemáticas, no por promesas.",
+        feedback: "Cualquier persona en el mundo puede usar Bitcoin con solo un smartphone. No necesitas saber programar.",
       },
       {
-        texto: "Tiene escasez matemática garantizada, no depende de ningún gobierno y nadie puede cambiar sus reglas",
+        texto: "No depende de bancos ni gobiernos",
         correcto: true,
-        feedback: "¡Exacto! Por primera vez en la historia existe un dinero cuya escasez está garantizada por código, no por promesas de ningún gobierno. Satoshi resolvió algo que nadie había podido en miles de años. ₿⚡",
+        feedback: "¡Exacto! Sin bancos, sin gobiernos, sin que nadie pueda cambiar las reglas. Solo 21 millones. Para siempre. ₿⚡",
       },
       {
-        texto: "Es solo para programadores y personas muy técnicas",
+        texto: "Que es dinero de videojuegos",
         correcto: false,
-        feedback: "Bitcoin fue diseñado para ser accesible para todos. Si tienes un smartphone y conexión a internet, ya puedes tener Bitcoin — sin banco, sin identificación, sin permiso de nadie.",
+        feedback: "Bitcoin tiene más valor de mercado que muchos países enteros. Y cada día más negocios lo aceptan en el mundo real.",
       },
     ],
   },

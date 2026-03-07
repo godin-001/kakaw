@@ -57,7 +57,7 @@ export default function AventuraPage() {
   if (fase === FASES.INTRO) {
     return (
       <main className="min-h-screen flex flex-col items-center justify-center px-4 py-12">
-        <div className="max-w-sm w-full space-y-6">
+        <div className="max-w-[26.5rem] w-full space-y-6">
           <div className="flex justify-center">
             <Kakaw mood="sarcastic" size={110} />
           </div>
@@ -95,7 +95,7 @@ export default function AventuraPage() {
   if (fase === FASES.ESCENARIO) {
     return (
       <main className="min-h-screen flex flex-col items-center justify-center px-4 py-12">
-        <div className="max-w-sm w-full space-y-5">
+        <div className="max-w-[26.5rem] w-full space-y-5">
           <div className="flex items-center justify-between text-sm">
             <span className="text-amber-500">Escenario {escenarioIdx + 1} de {totalEscenarios}</span>
             <span className="text-orange-400 font-bold">⚡ {satsTotal} sats</span>
@@ -140,7 +140,7 @@ export default function AventuraPage() {
 
     return (
       <main className="min-h-screen flex flex-col items-center justify-center px-4 py-12">
-        <div className="max-w-sm w-full space-y-4">
+        <div className="max-w-[26.5rem] w-full space-y-4">
           <div className="flex justify-center">
             <Kakaw mood={esBanco ? 'sarcastic' : 'happy'} size={90} />
           </div>
@@ -186,7 +186,7 @@ export default function AventuraPage() {
   if (fase === FASES.CIERRE) {
     return (
       <main className="min-h-screen flex flex-col items-center justify-center px-4 py-12">
-        <div className="max-w-sm w-full space-y-6">
+        <div className="max-w-[26.5rem] w-full space-y-6">
           <div className="flex justify-center">
             <Kakaw mood="happy" size={110} />
           </div>

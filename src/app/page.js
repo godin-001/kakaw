@@ -80,7 +80,7 @@ export default function BoardPage() {
   }
 
   return (
-    <main className="min-h-screen px-4 py-6 max-w-sm mx-auto">
+    <main className="min-h-screen px-4 py-6 max-w-[26.5rem] mx-auto">
 
       {/* Header */}
       <div className="flex items-center justify-between mb-1">

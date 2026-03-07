@@ -33,7 +33,7 @@ export default function QuizPage() {
 
   return (
     <main
-      className="min-h-screen flex flex-col px-4 py-5 max-w-sm mx-auto"
+      className="min-h-screen flex flex-col px-4 py-5 max-w-[26.5rem] mx-auto"
       style={{ background: tema.gradient }}
     >
       {/* Barra de progreso */}
