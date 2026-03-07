@@ -25,16 +25,8 @@ const ITEMS = [
   },
 ]
 
-// Path sinuoso: alterna izquierda / derecha
-const OFFSET = [
-  'justify-start',
-  'justify-end',
-  'justify-start',
-  'justify-end',
-  'justify-start',
-  'justify-end',
-  'justify-center',
-]
+// Offset sutil desde el centro — sinuoso pero sin separarse demasiado
+const OFFSET_X = [-32, 32, -32, 32, -32, 32, 0] // px desde el centro
 
 export default function BoardPage() {
   const router = useRouter()
@@ -126,15 +118,14 @@ export default function BoardPage() {
 
       {/* Path */}
       {!mostrarBienvenida && (
-        <div className="relative flex flex-col">
+        <div className="relative flex flex-col items-center">
 
-          {/* Línea vertical de fondo */}
+          {/* Línea vertical central */}
           <div
-            className="absolute left-1/2 -translate-x-1/2 z-0 w-0.5"
+            className="absolute z-0 w-0.5"
             style={{
-              top: 36,
-              bottom: 36,
-              background: 'linear-gradient(to bottom, rgba(255,255,255,0.06) 0%, rgba(255,255,255,0.06) 100%)',
+              top: 36, bottom: 36, left: '50%', transform: 'translateX(-50%)',
+              background: 'rgba(255,255,255,0.06)',
             }}
           />
 
@@ -143,13 +134,11 @@ export default function BoardPage() {
             const completado = estado === 'completado'
             const actual = estado === 'actual'
             const bloqueado = estado === 'bloqueado'
-            const offset = OFFSET[idx] || 'justify-center'
             const tema = item.tema || {}
+            const offsetX = OFFSET_X[idx] ?? 0
+            const kakawRight = actual && offsetX < 0  // nodo a izq → Kakaw a der
+            const kakawLeft = actual && offsetX >= 0  // nodo a der/centro → Kakaw a izq
 
-            const kakawIzq = actual && offset === 'justify-start'
-            const kakawDer = actual && (offset === 'justify-end' || offset === 'justify-center')
-
-            // Estilos del nodo según estado
             const nodoStyle = bloqueado
               ? { background: 'rgba(255,255,255,0.04)', borderColor: 'rgba(255,255,255,0.08)' }
               : completado
@@ -159,25 +148,23 @@ export default function BoardPage() {
               : {}
 
             return (
-              <div key={item.id} className="flex flex-col items-center z-10 mb-1">
+              <div key={item.id} className="flex flex-col items-center z-10 mb-1 w-full">
 
-                <div className={`flex items-center w-full ${offset} relative`}>
-
-                  {/* Kakaw derecha del nodo (nodo a izq) */}
-                  {kakawIzq && (
-                    <div className="flex items-center gap-2 ml-2 flex-shrink-0">
+                {/* Fila con nodo + Kakaw */}
+                <div
+                  className="flex items-center relative"
+                  style={{ transform: `translateX(${offsetX}px)` }}
+                >
+                  {/* Kakaw a la izquierda del nodo */}
+                  {kakawLeft && (
+                    <div className="flex items-center gap-2 mr-2">
+                      <Kakaw mood="happy" size={48} />
                       <div
-                        className="rounded-2xl rounded-tl-sm px-3 py-2"
-                        style={{
-                          background: 'rgba(255,255,255,0.06)',
-                          border: `1px solid ${tema.accent}50`,
-                        }}
+                        className="rounded-2xl rounded-tr-sm px-2.5 py-1.5"
+                        style={{ background: 'rgba(255,255,255,0.06)', border: `1px solid ${tema.accent}40` }}
                       >
-                        <p className="text-xs leading-snug" style={{ color: tema.texto }}>
-                          ¡Toca para continuar!
-                        </p>
+                        <p className="text-xs" style={{ color: tema.texto }}>¡Continúa!</p>
                       </div>
-                      <Kakaw mood="happy" size={52} />
                     </div>
                   )}
 
@@ -187,8 +174,8 @@ export default function BoardPage() {
                     disabled={bloqueado}
                     style={nodoStyle}
                     className={`
-                      relative flex flex-col items-center justify-center
-                      w-[72px] h-[72px] rounded-full border-[3px] flex-shrink-0
+                      relative flex items-center justify-center
+                      w-[68px] h-[68px] rounded-full border-[3px] flex-shrink-0
                       transition-all duration-300
                       ${actual ? 'scale-110 animate-pulse' : ''}
                       ${!bloqueado && !actual ? 'hover:scale-105' : ''}
@@ -208,38 +195,36 @@ export default function BoardPage() {
                     )}
                   </button>
 
-                  {/* Kakaw izquierda del nodo (nodo a der) */}
-                  {kakawDer && (
-                    <div className="flex items-center gap-2 ml-2 flex-shrink-0">
-                      <Kakaw mood="happy" size={52} />
+                  {/* Kakaw a la derecha del nodo */}
+                  {kakawRight && (
+                    <div className="flex items-center gap-2 ml-2">
                       <div
-                        className="rounded-2xl rounded-tr-sm px-3 py-2"
-                        style={{
-                          background: 'rgba(255,255,255,0.06)',
-                          border: `1px solid ${tema.accent}50`,
-                        }}
+                        className="rounded-2xl rounded-tl-sm px-2.5 py-1.5"
+                        style={{ background: 'rgba(255,255,255,0.06)', border: `1px solid ${tema.accent}40` }}
                       >
-                        <p className="text-xs leading-snug" style={{ color: tema.texto }}>
-                          ¡Toca para continuar!
-                        </p>
+                        <p className="text-xs" style={{ color: tema.texto }}>¡Continúa!</p>
                       </div>
+                      <Kakaw mood="happy" size={48} />
                     </div>
                   )}
                 </div>
 
-                {/* Nombre */}
+                {/* Nombre del módulo */}
                 <p
-                  className="text-xs font-semibold mt-1.5 text-center"
+                  className="text-sm font-semibold mt-1.5 text-center"
                   style={{
                     color: completado ? tema.accent : actual ? '#FEF3C7' : 'rgba(255,255,255,0.2)',
+                    transform: `translateX(${offsetX * 0.4}px)`,
                   }}
                 >
                   {item.titulo}
                 </p>
 
-                {/* Sats ganados */}
                 {completado && item.tipo === 'modulo' && (
-                  <p className="text-[10px] font-bold mt-0.5" style={{ color: tema.accent }}>
+                  <p
+                    className="text-xs font-bold mt-0.5"
+                    style={{ color: tema.accent, transform: `translateX(${offsetX * 0.4}px)` }}
+                  >
                     +71 ⚡
                   </p>
                 )}
@@ -263,9 +248,7 @@ export default function BoardPage() {
             borderColor: 'rgba(249,115,22,0.4)',
           }}
         >
-          <div className="flex justify-center">
-            <Kakaw mood="happy" size={100} />
-          </div>
+          <div className="flex justify-center"><Kakaw mood="happy" size={100} /></div>
           <div>
             <p className="text-3xl font-black text-orange-400">¡Lo lograste!</p>
             <p className="text-amber-300 text-sm mt-1">Ganaste {progreso.satsGanados} sats ⚡</p>
@@ -277,10 +260,8 @@ export default function BoardPage() {
       )}
 
       <footer className="mt-10 text-center text-xs pb-4" style={{ color: 'rgba(255,255,255,0.15)' }}>
-        Hecho con 🍫 · Bitcoin Hackathon México 2026<br />
-        Aureo + Acepta Bitcoin
+        Hecho con 🍫 · Bitcoin Hackathon México 2026<br />Aureo + Acepta Bitcoin
       </footer>
-
     </main>
   )
 }
