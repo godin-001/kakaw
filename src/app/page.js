@@ -5,7 +5,14 @@ import Kakaw from '@/components/Kakaw'
 import { modulos } from '@/data/modulos'
 import { cargarProgreso } from '@/lib/progreso'
 
-// Items del path: 6 módulos + Mueve tu Lana
+const AVENTURA_TEMA = {
+  accent: '#A855F7',
+  nodoBg: '#581C87',
+  nodoBorder: '#A855F7',
+  sombra: 'rgba(168, 85, 247, 0.4)',
+  texto: '#E9D5FF',
+}
+
 const ITEMS = [
   ...modulos.map(m => ({ tipo: 'modulo', ...m })),
   {
@@ -14,11 +21,20 @@ const ITEMS = [
     slug: 'aventura',
     titulo: 'Mueve tu Lana',
     emoji: '🎮',
+    tema: AVENTURA_TEMA,
   },
 ]
 
-// Alterna izquierda/derecha para el efecto sinuoso
-const OFFSET = ['justify-start', 'justify-end', 'justify-start', 'justify-end', 'justify-start', 'justify-end', 'justify-center']
+// Path sinuoso: alterna izquierda / derecha
+const OFFSET = [
+  'justify-start',
+  'justify-end',
+  'justify-start',
+  'justify-end',
+  'justify-start',
+  'justify-end',
+  'justify-center',
+]
 
 export default function BoardPage() {
   const router = useRouter()
@@ -38,14 +54,13 @@ export default function BoardPage() {
   const completados = progreso.modulosCompletados || []
   const aventuraCompletada = progreso.aventuraCompletada || false
 
-  // Índice del item actual (primero no completado)
   const currentIdx = (() => {
     for (let i = 0; i < ITEMS.length; i++) {
       const item = ITEMS[i]
       if (item.tipo === 'modulo' && !completados.includes(item.slug)) return i
       if (item.tipo === 'aventura' && completados.length === modulos.length && !aventuraCompletada) return i
     }
-    return ITEMS.length // Todo completo
+    return ITEMS.length
   })()
 
   const todoCompleto = currentIdx >= ITEMS.length
@@ -56,13 +71,9 @@ export default function BoardPage() {
     if (item.tipo === 'aventura') router.push('/aventura')
   }
 
-  function getNodeEstado(item, idx) {
-    if (item.tipo === 'modulo') {
-      if (completados.includes(item.slug)) return 'completado'
-    }
-    if (item.tipo === 'aventura') {
-      if (aventuraCompletada) return 'completado'
-    }
+  function getEstado(item, idx) {
+    if (item.tipo === 'modulo' && completados.includes(item.slug)) return 'completado'
+    if (item.tipo === 'aventura' && aventuraCompletada) return 'completado'
     if (idx === currentIdx) return 'actual'
     if (idx > currentIdx) return 'bloqueado'
     return 'completado'
@@ -72,37 +83,42 @@ export default function BoardPage() {
     <main className="min-h-screen px-4 py-6 max-w-sm mx-auto">
 
       {/* Header */}
-      <div className="flex items-center justify-between mb-2">
-        <h1 className="text-3xl font-black text-orange-400 tracking-tight">KAKAW</h1>
-        <div className="flex items-center gap-1.5 bg-orange-950 border border-orange-800 rounded-full px-4 py-2">
-          <span className="text-orange-400 text-sm">⚡</span>
-          <span className="text-orange-300 font-bold text-sm">{progreso.satsGanados} sats</span>
+      <div className="flex items-center justify-between mb-1">
+        <h1 className="text-3xl font-black tracking-tight" style={{ color: '#F97316' }}>
+          KAKAW
+        </h1>
+        <div className="sats-badge">
+          <span>⚡</span>
+          <span>{progreso.satsGanados} sats</span>
         </div>
       </div>
-      <p className="text-amber-600 text-xs text-center uppercase tracking-widest mb-8">
+      <p className="text-xs text-center uppercase tracking-widest mb-8" style={{ color: '#78350F' }}>
         La Historia del Dinero · Parte 1
       </p>
 
-      {/* Banner bienvenida (solo primera vez) */}
+      {/* Banner bienvenida */}
       {mostrarBienvenida && (
-        <div className="card border-orange-500/40 bg-orange-950/40 mb-8 text-center space-y-3">
+        <div
+          className="rounded-3xl border p-5 mb-8 text-center space-y-4"
+          style={{
+            background: 'linear-gradient(160deg, #1A0800 0%, #2D1A06 100%)',
+            borderColor: 'rgba(249,115,22,0.3)',
+          }}
+        >
           <div className="flex justify-center">
-            <Kakaw mood="happy" size={90} />
+            <Kakaw mood="happy" size={100} />
           </div>
-          <p className="text-amber-100 font-bold text-lg leading-snug">
-            ¡Hola! Soy Kakaw 🍫
-          </p>
-          <p className="text-amber-300 text-sm leading-relaxed">
-            Soy un grano de cacao que ha visto todo — desde el trueque hasta Bitcoin.
-            Vamos a recorrer 5,000 años de historia del dinero juntos.
-          </p>
-          <p className="text-orange-400 text-xs font-semibold">
-            Responde bien y gana sats reales ⚡
-          </p>
-          <button
-            onClick={() => setMostrarBienvenida(false)}
-            className="btn-primary w-full"
-          >
+          <div>
+            <p className="text-amber-100 font-black text-xl">¡Hola! Soy Kakaw 🍫</p>
+            <p className="text-amber-300 text-sm leading-relaxed mt-2">
+              Soy un grano de cacao que ha visto todo — desde el trueque hasta Bitcoin.
+              Vamos a recorrer 5,000 años de historia del dinero juntos.
+            </p>
+            <p className="text-orange-400 text-xs font-bold mt-2">
+              Responde bien y gana sats reales ⚡
+            </p>
+          </div>
+          <button onClick={() => setMostrarBienvenida(false)} className="btn-primary w-full">
             ¡Empezamos! →
           </button>
         </div>
@@ -112,34 +128,56 @@ export default function BoardPage() {
       {!mostrarBienvenida && (
         <div className="relative flex flex-col">
 
-          {/* Línea vertical central */}
+          {/* Línea vertical de fondo */}
           <div
-            className="absolute left-1/2 -translate-x-1/2 top-10 bottom-10 w-0.5 bg-amber-900 z-0"
-            style={{ top: 40, bottom: 40 }}
+            className="absolute left-1/2 -translate-x-1/2 z-0 w-0.5"
+            style={{
+              top: 36,
+              bottom: 36,
+              background: 'linear-gradient(to bottom, rgba(255,255,255,0.06) 0%, rgba(255,255,255,0.06) 100%)',
+            }}
           />
 
           {ITEMS.map((item, idx) => {
-            const estado = getNodeEstado(item, idx)
+            const estado = getEstado(item, idx)
             const completado = estado === 'completado'
             const actual = estado === 'actual'
             const bloqueado = estado === 'bloqueado'
             const offset = OFFSET[idx] || 'justify-center'
-            const kakawAquiIzq = actual && (offset === 'justify-start')
-            const kakawAquiDer = actual && (offset === 'justify-end' || offset === 'justify-center')
+            const tema = item.tema || {}
+
+            const kakawIzq = actual && offset === 'justify-start'
+            const kakawDer = actual && (offset === 'justify-end' || offset === 'justify-center')
+
+            // Estilos del nodo según estado
+            const nodoStyle = bloqueado
+              ? { background: 'rgba(255,255,255,0.04)', borderColor: 'rgba(255,255,255,0.08)' }
+              : completado
+              ? { background: tema.nodoBg, borderColor: tema.nodoBorder, boxShadow: `0 0 20px ${tema.sombra}` }
+              : actual
+              ? { background: 'transparent', borderColor: tema.accent, boxShadow: `0 0 30px ${tema.sombra}` }
+              : {}
 
             return (
               <div key={item.id} className="flex flex-col items-center z-10 mb-1">
 
-                {/* Fila del nodo */}
                 <div className={`flex items-center w-full ${offset} relative`}>
 
-                  {/* Kakaw a la derecha del nodo (cuando el nodo está a la izquierda) */}
-                  {kakawAquiIzq && (
-                    <div className="flex items-center gap-1 ml-3 flex-shrink-0">
-                      <div className="bg-amber-900 border border-orange-700 rounded-2xl rounded-tl-sm px-3 py-1.5 max-w-[120px]">
-                        <p className="text-amber-300 text-xs leading-snug">¡Toca para continuar!</p>
+                  {/* Kakaw derecha del nodo (nodo a izq) */}
+                  {kakawIzq && (
+                    <div className="flex items-center gap-2 ml-2 flex-shrink-0">
+                      <div
+                        className="rounded-2xl rounded-tl-sm px-3 py-2"
+                        style={{
+                          background: 'rgba(255,255,255,0.06)',
+                          border: `1px solid ${tema.accent}50`,
+                        }}
+                      >
+                        <p className="text-xs leading-snug" style={{ color: tema.texto }}>
+                          ¡Toca para continuar!
+                        </p>
                       </div>
-                      <Kakaw mood="happy" size={56} />
+                      <Kakaw mood="happy" size={52} />
                     </div>
                   )}
 
@@ -147,55 +185,68 @@ export default function BoardPage() {
                   <button
                     onClick={() => handleNodeClick(item, idx)}
                     disabled={bloqueado}
+                    style={nodoStyle}
                     className={`
                       relative flex flex-col items-center justify-center
-                      w-[72px] h-[72px] rounded-full border-4 flex-shrink-0
-                      transition-all duration-200
-                      ${completado ? 'bg-orange-500 border-orange-400 shadow-lg shadow-orange-500/30 hover:scale-105' : ''}
-                      ${actual ? 'bg-amber-950 border-orange-500 shadow-xl shadow-orange-500/40 scale-110 animate-pulse cursor-pointer' : ''}
-                      ${bloqueado ? 'bg-amber-950 border-amber-800 opacity-35 cursor-not-allowed' : ''}
+                      w-[72px] h-[72px] rounded-full border-[3px] flex-shrink-0
+                      transition-all duration-300
+                      ${actual ? 'scale-110 animate-pulse' : ''}
+                      ${!bloqueado && !actual ? 'hover:scale-105' : ''}
+                      ${bloqueado ? 'cursor-not-allowed opacity-30' : 'cursor-pointer'}
                     `}
                   >
                     <span className="text-2xl leading-none">
                       {bloqueado ? '🔒' : item.emoji}
                     </span>
                     {completado && (
-                      <span className="absolute -top-1 -right-1 bg-green-500 text-white text-[10px] rounded-full w-5 h-5 flex items-center justify-center font-black">
+                      <span
+                        className="absolute -top-1 -right-1 w-5 h-5 rounded-full flex items-center justify-center text-[10px] font-black text-white"
+                        style={{ background: '#22C55E' }}
+                      >
                         ✓
                       </span>
                     )}
                   </button>
 
-                  {/* Kakaw a la izquierda del nodo (cuando el nodo está a la derecha) */}
-                  {kakawAquiDer && (
-                    <div className="flex items-center gap-1 mr-3 flex-shrink-0">
-                      <Kakaw mood="happy" size={56} />
-                      <div className="bg-amber-900 border border-orange-700 rounded-2xl rounded-tr-sm px-3 py-1.5 max-w-[120px]">
-                        <p className="text-amber-300 text-xs leading-snug">¡Toca para continuar!</p>
+                  {/* Kakaw izquierda del nodo (nodo a der) */}
+                  {kakawDer && (
+                    <div className="flex items-center gap-2 ml-2 flex-shrink-0">
+                      <Kakaw mood="happy" size={52} />
+                      <div
+                        className="rounded-2xl rounded-tr-sm px-3 py-2"
+                        style={{
+                          background: 'rgba(255,255,255,0.06)',
+                          border: `1px solid ${tema.accent}50`,
+                        }}
+                      >
+                        <p className="text-xs leading-snug" style={{ color: tema.texto }}>
+                          ¡Toca para continuar!
+                        </p>
                       </div>
                     </div>
                   )}
                 </div>
 
-                {/* Nombre del módulo */}
-                <p className={`
-                  text-xs font-semibold mt-1.5 text-center px-2
-                  ${completado ? 'text-orange-400' : actual ? 'text-amber-200' : 'text-amber-800'}
-                `}>
+                {/* Nombre */}
+                <p
+                  className="text-xs font-semibold mt-1.5 text-center"
+                  style={{
+                    color: completado ? tema.accent : actual ? '#FEF3C7' : 'rgba(255,255,255,0.2)',
+                  }}
+                >
                   {item.titulo}
                 </p>
 
-                {/* Sats ganados en este nodo */}
+                {/* Sats ganados */}
                 {completado && item.tipo === 'modulo' && (
-                  <p className="text-orange-500 text-[10px] font-bold">+71 ⚡</p>
-                )}
-                {completado && item.tipo === 'aventura' && (
-                  <p className="text-orange-500 text-[10px] font-bold">+{210 + 100} ⚡</p>
+                  <p className="text-[10px] font-bold mt-0.5" style={{ color: tema.accent }}>
+                    +71 ⚡
+                  </p>
                 )}
 
-                {/* Conector al siguiente */}
+                {/* Conector */}
                 {idx < ITEMS.length - 1 && (
-                  <div className="h-7 w-0.5 bg-amber-900 mt-1" />
+                  <div className="h-6 w-0.5 mt-1" style={{ background: 'rgba(255,255,255,0.06)' }} />
                 )}
               </div>
             )
@@ -203,27 +254,29 @@ export default function BoardPage() {
         </div>
       )}
 
-      {/* Banner de completado total */}
+      {/* Banner todo completo */}
       {todoCompleto && (
-        <div className="mt-8 card text-center border-orange-500/40 bg-orange-900/20 space-y-4">
+        <div
+          className="mt-8 rounded-3xl border p-6 text-center space-y-4"
+          style={{
+            background: 'linear-gradient(160deg, #1A0800 0%, #2D1200 100%)',
+            borderColor: 'rgba(249,115,22,0.4)',
+          }}
+        >
           <div className="flex justify-center">
             <Kakaw mood="happy" size={100} />
           </div>
           <div>
             <p className="text-3xl font-black text-orange-400">¡Lo lograste!</p>
-            <p className="text-amber-300 text-sm mt-1">Reclamaste {progreso.satsGanados} sats ⚡</p>
+            <p className="text-amber-300 text-sm mt-1">Ganaste {progreso.satsGanados} sats ⚡</p>
           </div>
-          <button
-            onClick={() => router.push('/resultado')}
-            className="btn-primary w-full text-lg"
-          >
+          <button onClick={() => router.push('/resultado')} className="btn-primary w-full text-lg">
             Ver mi resultado →
           </button>
         </div>
       )}
 
-      {/* Footer */}
-      <footer className="mt-10 text-center text-amber-800 text-xs pb-4">
+      <footer className="mt-10 text-center text-xs pb-4" style={{ color: 'rgba(255,255,255,0.15)' }}>
         Hecho con 🍫 · Bitcoin Hackathon México 2026<br />
         Aureo + Acepta Bitcoin
       </footer>

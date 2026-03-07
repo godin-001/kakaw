@@ -19,6 +19,7 @@ export default function QuizPage() {
 
   const idx = modulos.findIndex(m => m.slug === slug)
   const total = modulos.length
+  const tema = modulo.tema
 
   function elegir(i) {
     if (opcionElegida !== null) return
@@ -27,33 +28,35 @@ export default function QuizPage() {
     completarModulo(slug, modulo.opciones[i].correcto)
   }
 
-  function continuar() {
-    router.push('/')
-  }
-
   const correcto = opcionElegida !== null && modulo.opciones[opcionElegida].correcto
   const kakawMood = !mostrarFeedback ? 'neutral' : correcto ? 'happy' : 'surprised'
 
   return (
-    <main className="min-h-screen flex flex-col px-4 py-5 max-w-sm mx-auto">
-
+    <main
+      className="min-h-screen flex flex-col px-4 py-5 max-w-sm mx-auto"
+      style={{ background: tema.gradient }}
+    >
       {/* Barra de progreso */}
       <div className="mb-5 flex-shrink-0">
         <div className="flex items-center justify-between mb-2">
           <button
             onClick={() => router.push(`/modulo/${slug}`)}
-            className="text-amber-600 text-sm hover:text-amber-400 transition-colors"
+            className="text-sm transition-colors"
+            style={{ color: `${tema.accent}99` }}
           >
             ← Volver
           </button>
-          <span className="text-amber-500 text-xs font-medium">
+          <span className="text-xs font-medium" style={{ color: `${tema.accent}99` }}>
             Quiz {idx + 1} de {total}
           </span>
         </div>
-        <div className="w-full bg-amber-900 rounded-full h-2 overflow-hidden">
+        <div className="progress-bar">
           <div
-            className="bg-gradient-to-r from-orange-500 to-amber-400 h-2 rounded-full transition-all duration-700"
-            style={{ width: `${((idx + 0.5) / total) * 100}%` }}
+            className="progress-fill"
+            style={{
+              width: `${((idx + 0.5) / total) * 100}%`,
+              background: `linear-gradient(90deg, ${tema.accent}, ${tema.texto})`,
+            }}
           />
         </div>
       </div>
@@ -63,11 +66,20 @@ export default function QuizPage() {
         <div className="flex-shrink-0">
           <Kakaw mood={kakawMood} size={72} />
         </div>
-        <div className="bg-amber-900/80 border border-amber-700 rounded-2xl rounded-tl-sm px-4 py-3 flex-1">
-          <p className="text-amber-500 text-[11px] uppercase tracking-widest font-bold mb-1">
+        <div
+          className="rounded-2xl rounded-tl-sm px-4 py-3 flex-1"
+          style={{
+            background: 'rgba(255,255,255,0.07)',
+            border: `1px solid ${tema.accent}40`,
+          }}
+        >
+          <p
+            className="text-[11px] uppercase tracking-widest font-bold mb-1"
+            style={{ color: tema.accent }}
+          >
             Pregunta
           </p>
-          <p className="text-amber-100 font-semibold text-sm leading-snug">
+          <p className="text-white font-semibold text-sm leading-snug">
             {modulo.pregunta}
           </p>
         </div>
@@ -76,53 +88,83 @@ export default function QuizPage() {
       {/* Opciones */}
       <div className="space-y-3 flex-1 mb-4">
         {modulo.opciones.map((opcion, i) => {
-          let clases = 'opcion-btn'
-          if (opcionElegida !== null) {
-            if (opcion.correcto) clases += ' opcion-correcta'
-            else if (i === opcionElegida && !opcion.correcto) clases += ' opcion-incorrecta'
-            else clases += ' opacity-30'
+          const esElegida = i === opcionElegida
+          const esCorrecta = opcion.correcto
+          const mostrar = opcionElegida !== null
+
+          let bg = 'rgba(255,255,255,0.05)'
+          let border = 'rgba(255,255,255,0.1)'
+          let opacity = 1
+
+          if (mostrar) {
+            if (esCorrecta) {
+              bg = 'rgba(34,197,94,0.15)'
+              border = '#22C55E'
+            } else if (esElegida && !esCorrecta) {
+              bg = 'rgba(239,68,68,0.15)'
+              border = '#EF4444'
+            } else {
+              opacity = 0.3
+            }
           }
+
           return (
             <button
               key={i}
               onClick={() => elegir(i)}
               disabled={opcionElegida !== null}
-              className={clases}
+              className="w-full text-left py-4 px-5 rounded-2xl transition-all duration-200 active:scale-[0.98] cursor-pointer"
+              style={{
+                background: bg,
+                border: `1px solid ${border}`,
+                opacity,
+              }}
             >
-              <span className="text-amber-500 font-bold mr-2">
+              <span className="font-bold mr-2" style={{ color: tema.accent }}>
                 {String.fromCharCode(65 + i)}.
               </span>
-              <span className="text-sm">{opcion.texto}</span>
+              <span className="text-sm text-white/90">{opcion.texto}</span>
             </button>
           )
         })}
       </div>
 
-      {/* Feedback + botón continuar */}
+      {/* Feedback */}
       {mostrarFeedback && opcionElegida !== null && (
-        <div className={`card border-2 flex-shrink-0 ${correcto
-          ? 'border-green-500/60 bg-green-950/40'
-          : 'border-red-500/60 bg-red-950/40'
-        }`}>
-          <div className="flex items-start gap-3 mb-3">
-            <span className="text-2xl flex-shrink-0">
-              {correcto ? '✅' : '❌'}
-            </span>
+        <div
+          className="rounded-3xl p-5 flex-shrink-0"
+          style={{
+            background: correcto ? 'rgba(34,197,94,0.1)' : 'rgba(239,68,68,0.1)',
+            border: `2px solid ${correcto ? '#22C55E50' : '#EF444450'}`,
+          }}
+        >
+          <div className="flex items-start gap-3 mb-4">
+            <span className="text-2xl flex-shrink-0">{correcto ? '✅' : '❌'}</span>
             <div>
-              <p className={`font-black text-sm mb-1 ${correcto ? 'text-green-400' : 'text-red-400'}`}>
+              <p
+                className="font-black text-sm mb-1"
+                style={{ color: correcto ? '#4ADE80' : '#F87171' }}
+              >
                 {correcto ? '¡Correcto!' : 'Incorrecto'}
               </p>
-              <p className="text-amber-300 text-xs leading-relaxed">
+              <p className="text-white/70 text-xs leading-relaxed">
                 {modulo.opciones[opcionElegida].feedback}
               </p>
               {correcto && (
-                <p className="text-orange-400 font-black text-sm mt-2">
+                <p className="font-black text-sm mt-2" style={{ color: tema.accent }}>
                   +{SATS_QUIZ_CORRECTO + SATS_MODULO_BONUS} sats ⚡
                 </p>
               )}
             </div>
           </div>
-          <button onClick={continuar} className="btn-primary w-full">
+          <button
+            onClick={() => router.push('/')}
+            className="w-full py-4 rounded-2xl font-bold text-base text-white transition-all duration-200 active:scale-95 hover:-translate-y-0.5"
+            style={{
+              background: `linear-gradient(135deg, ${tema.nodoBg}, ${tema.nodoBorder})`,
+              boxShadow: `0 6px 24px ${tema.sombra}`,
+            }}
+          >
             {idx < total - 1 ? 'Volver al mapa →' : '¡A la aventura! →'}
           </button>
         </div>

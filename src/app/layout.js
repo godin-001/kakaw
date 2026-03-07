@@ -1,4 +1,12 @@
+import { Space_Grotesk } from 'next/font/google'
 import './globals.css'
+
+const spaceGrotesk = Space_Grotesk({
+  subsets: ['latin'],
+  weight: ['400', '500', '600', '700', '800'],
+  variable: '--font-space',
+  display: 'swap',
+})
 
 export const metadata = {
   title: 'Kakaw — La Historia del Dinero',
@@ -12,8 +20,8 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="es">
-      <body className="min-h-screen bg-amber-950 text-amber-50">
+    <html lang="es" className={spaceGrotesk.variable}>
+      <body className={`min-h-screen bg-[#0E0800] text-amber-50 ${spaceGrotesk.className}`}>
         {children}
       </body>
     </html>

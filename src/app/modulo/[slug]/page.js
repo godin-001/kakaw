@@ -15,27 +15,34 @@ export default function ModuloPage() {
 
   const idx = modulos.findIndex(m => m.slug === slug)
   const total = modulos.length
+  const tema = modulo.tema
 
   return (
-    <main className="min-h-screen flex flex-col px-4 py-5 max-w-sm mx-auto">
-
+    <main
+      className="min-h-screen flex flex-col px-4 py-5 max-w-sm mx-auto"
+      style={{ background: tema.gradient }}
+    >
       {/* Barra de progreso */}
       <div className="mb-5 flex-shrink-0">
         <div className="flex items-center justify-between mb-2">
           <button
             onClick={() => router.push('/')}
-            className="text-amber-600 text-sm hover:text-amber-400 transition-colors"
+            className="text-sm transition-colors"
+            style={{ color: `${tema.accent}99` }}
           >
             ← Mapa
           </button>
-          <span className="text-amber-500 text-xs font-medium">
+          <span className="text-xs font-medium" style={{ color: `${tema.accent}99` }}>
             Módulo {idx + 1} de {total}
           </span>
         </div>
-        <div className="w-full bg-amber-900 rounded-full h-2 overflow-hidden">
+        <div className="progress-bar">
           <div
-            className="bg-gradient-to-r from-orange-500 to-amber-400 h-2 rounded-full transition-all duration-700"
-            style={{ width: `${((idx) / total) * 100}%` }}
+            className="progress-fill"
+            style={{
+              width: `${(idx / total) * 100}%`,
+              background: `linear-gradient(90deg, ${tema.accent}, ${tema.texto})`,
+            }}
           />
         </div>
       </div>
@@ -44,10 +51,13 @@ export default function ModuloPage() {
       <div className="flex items-center gap-3 mb-5 flex-shrink-0">
         <span className="text-4xl">{modulo.emoji}</span>
         <div>
-          <p className="text-amber-600 text-[11px] uppercase tracking-widest font-medium">
+          <p
+            className="text-[11px] uppercase tracking-widest font-semibold"
+            style={{ color: `${tema.accent}99` }}
+          >
             Capítulo {idx + 1}
           </p>
-          <h1 className="text-xl font-black text-amber-100 leading-tight">
+          <h1 className="text-xl font-black leading-tight text-white">
             {modulo.titulo}
           </h1>
         </div>
@@ -58,25 +68,43 @@ export default function ModuloPage() {
         <div className="flex-shrink-0">
           <Kakaw mood="neutral" size={72} />
         </div>
-        <div className="bg-amber-900/80 border border-amber-700 rounded-2xl rounded-tl-sm px-4 py-3 flex-1">
-          <p className="text-amber-200 text-sm leading-relaxed">
+        <div
+          className="rounded-2xl rounded-tl-sm px-4 py-3 flex-1"
+          style={{
+            background: 'rgba(255,255,255,0.07)',
+            border: `1px solid ${tema.accent}40`,
+          }}
+        >
+          <p className="text-sm leading-relaxed" style={{ color: tema.texto }}>
             {modulo.kakawDice}
           </p>
         </div>
       </div>
 
-      {/* Tarjeta de puntos clave */}
-      <div className="card flex-1 mb-5">
-        <p className="text-orange-400 text-[11px] uppercase tracking-widest font-bold mb-3">
+      {/* Puntos clave */}
+      <div
+        className="rounded-3xl p-5 flex-1 mb-5"
+        style={{
+          background: 'rgba(255,255,255,0.05)',
+          border: `1px solid ${tema.accent}25`,
+        }}
+      >
+        <p
+          className="text-[11px] uppercase tracking-widest font-bold mb-4"
+          style={{ color: tema.accent }}
+        >
           Lo que necesitas saber
         </p>
-        <div className="space-y-3">
+        <div className="space-y-4">
           {modulo.puntosClave.map((punto, i) => (
             <div key={i} className="flex items-start gap-3">
-              <span className="text-orange-500 font-black text-base leading-tight flex-shrink-0 mt-0.5">
+              <span
+                className="font-black text-base leading-tight flex-shrink-0 mt-0.5"
+                style={{ color: tema.accent }}
+              >
                 {i + 1}.
               </span>
-              <p className="text-amber-200 text-sm leading-relaxed">
+              <p className="text-sm leading-relaxed text-white/80">
                 {punto}
               </p>
             </div>
@@ -84,10 +112,14 @@ export default function ModuloPage() {
         </div>
       </div>
 
-      {/* Botón de quiz */}
+      {/* Botón quiz */}
       <button
         onClick={() => router.push(`/quiz/${slug}`)}
-        className="btn-primary w-full text-base flex-shrink-0"
+        className="w-full py-4 rounded-2xl font-bold text-base text-white flex-shrink-0 transition-all duration-200 active:scale-95 hover:-translate-y-0.5"
+        style={{
+          background: `linear-gradient(135deg, ${tema.nodoBg}, ${tema.nodoBorder})`,
+          boxShadow: `0 6px 24px ${tema.sombra}`,
+        }}
       >
         ¡Ponme a prueba! ⚡
       </button>
