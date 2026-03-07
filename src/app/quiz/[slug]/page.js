@@ -2,7 +2,7 @@
 import { useState } from 'react'
 import { useParams, useRouter } from 'next/navigation'
 import { modulos } from '@/data/modulos'
-import Kakaw from '@/components/Kakaw'
+import KakawPixel from '@/components/KakawPixel'
 import { completarModulo, SATS_QUIZ_CORRECTO, SATS_MODULO_BONUS } from '@/lib/progreso'
 
 export default function QuizPage() {
@@ -97,7 +97,7 @@ export default function QuizPage() {
       {/* Kakaw + pregunta */}
       <div className="flex items-start gap-3 mb-5 flex-shrink-0">
         <div className="flex-shrink-0">
-          <Kakaw mood={kakawMood} size={72} />
+          <KakawPixel mood={kakawMood} size={72} />
         </div>
         <div
           className="rounded-2xl rounded-tl-sm px-4 py-3 flex-1"

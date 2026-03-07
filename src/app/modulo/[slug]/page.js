@@ -1,7 +1,7 @@
 'use client'
 import { useParams, useRouter } from 'next/navigation'
 import { modulos } from '@/data/modulos'
-import Kakaw from '@/components/Kakaw'
+import KakawPixel from '@/components/KakawPixel'
 
 export default function ModuloPage() {
   const { slug } = useParams()
@@ -66,7 +66,7 @@ export default function ModuloPage() {
       {/* Speech bubble de Kakaw */}
       <div className="flex items-start gap-3 mb-5 flex-shrink-0">
         <div className="flex-shrink-0">
-          <Kakaw mood="neutral" size={72} />
+          <KakawPixel mood="neutral" size={72} />
         </div>
         <div
           className="rounded-2xl rounded-tl-sm px-4 py-3 flex-1"

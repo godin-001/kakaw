@@ -2,7 +2,7 @@
 import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import { escenarios, cierre } from '@/data/escenarios'
-import Kakaw from '@/components/Kakaw'
+import KakawPixel from '@/components/KakawPixel'
 import {
   cargarProgreso,
   completarEscenario,
@@ -59,7 +59,7 @@ export default function AventuraPage() {
       <main className="min-h-screen flex flex-col items-center justify-center px-4 py-12">
         <div className="max-w-[26.5rem] w-full space-y-6">
           <div className="flex justify-center">
-            <Kakaw mood="sarcastic" size={110} />
+            <KakawPixel mood="sarcastic" size={110} />
           </div>
           <div className="text-center space-y-2">
             <h1 className="text-2xl font-black text-amber-100 leading-snug">
@@ -142,7 +142,7 @@ export default function AventuraPage() {
       <main className="min-h-screen flex flex-col items-center justify-center px-4 py-12">
         <div className="max-w-[26.5rem] w-full space-y-4">
           <div className="flex justify-center">
-            <Kakaw mood={esBanco ? 'sarcastic' : 'happy'} size={90} />
+            <KakawPixel mood={esBanco ? 'sarcastic' : 'happy'} size={90} />
           </div>
           <div className={`card text-center border-2 ${esBanco
             ? 'border-red-500/50 bg-red-950/30'
@@ -188,7 +188,7 @@ export default function AventuraPage() {
       <main className="min-h-screen flex flex-col items-center justify-center px-4 py-12">
         <div className="max-w-[26.5rem] w-full space-y-6">
           <div className="flex justify-center">
-            <Kakaw mood="happy" size={110} />
+            <KakawPixel mood="happy" size={110} />
           </div>
           <div className="text-center space-y-2">
             <span className="text-5xl">₿</span>

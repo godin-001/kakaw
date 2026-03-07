@@ -1,5 +1,19 @@
-import { Space_Grotesk } from 'next/font/google'
+import { Press_Start_2P, VT323, Space_Grotesk } from 'next/font/google'
 import './globals.css'
+
+const pressStart = Press_Start_2P({
+  subsets: ['latin'],
+  weight: ['400'],
+  variable: '--font-pixel',
+  display: 'swap',
+})
+
+const vt323 = VT323({
+  subsets: ['latin'],
+  weight: ['400'],
+  variable: '--font-vt',
+  display: 'swap',
+})
 
 const spaceGrotesk = Space_Grotesk({
   subsets: ['latin'],
@@ -10,18 +24,13 @@ const spaceGrotesk = Space_Grotesk({
 
 export const metadata = {
   title: 'Kakaw — La Historia del Dinero',
-  description: 'Del trueque a Bitcoin. Una aventura interactiva sobre cómo el dinero evolucionó hasta llegar a donde estamos hoy.',
-  openGraph: {
-    title: 'Kakaw — La Historia del Dinero',
-    description: 'Del trueque a Bitcoin. Aprende la historia del dinero de forma interactiva.',
-    type: 'website',
-  },
+  description: 'Del trueque a Bitcoin. Una aventura interactiva sobre cómo el dinero evolucionó.',
 }
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="es" className={spaceGrotesk.variable}>
-      <body className={`min-h-screen bg-[#0E0800] text-amber-50 ${spaceGrotesk.className}`}>
+    <html lang="es" className={`${pressStart.variable} ${vt323.variable} ${spaceGrotesk.variable}`}>
+      <body className="min-h-screen text-amber-50" style={{ fontFamily: 'var(--font-space), system-ui, sans-serif' }}>
         {children}
       </body>
     </html>
