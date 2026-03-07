@@ -18,14 +18,15 @@ Era un milagro logístico que algo se intercambiara.
     pregunta: "¿Cuál era el principal problema del trueque?",
     opciones: [
       {
-        texto: "Era muy eficiente, todos intercambiaban felices todo el tiempo",
-        correcto: false,
-        feedback: "¡Para nada! El trueque era un caos logístico. Casi nadie tenía lo que necesitabas exactamente cuando lo necesitabas.",
-      },
-      {
+        // A ← CORRECTA
         texto: "Necesitabas encontrar a alguien que tuviera lo que querías Y quisiera lo que tú tenías — al mismo tiempo",
         correcto: true,
         feedback: "¡Exacto! La 'doble coincidencia de deseos' hacía casi imposible el comercio. La humanidad necesitaba urgentemente una mejor solución. 🌽",
+      },
+      {
+        texto: "Era muy eficiente, todos intercambiaban felices todo el tiempo",
+        correcto: false,
+        feedback: "¡Para nada! El trueque era un caos logístico. Casi nadie tenía lo que necesitabas exactamente cuando lo necesitabas.",
       },
       {
         texto: "El gobierno lo prohibió porque perdía control",
@@ -60,14 +61,15 @@ Pero tenía sus propios problemas: ¿qué pasa cuando el cacao se pudre? ¿O cua
         feedback: "No había banco central todavía. La comunidad misma decidía qué tenía valor. Era dinero descentralizado — curiosamente parecido a algo que conocerás más adelante 👀",
       },
       {
-        texto: "Eran escasos, aceptados por todos y difíciles de falsificar o producir en exceso",
-        correcto: true,
-        feedback: "¡Correcto! Esas son las propiedades del buen dinero. Escasez + aceptación universal + resistencia a la falsificación. Guarda esa lista — la vas a necesitar. 🍫",
-      },
-      {
         texto: "Solo los usaban los nobles y sacerdotes",
         correcto: false,
         feedback: "El kakaw circulaba entre todos — desde el mercader hasta el artesano. Era el dinero del pueblo, no solo de la élite.",
+      },
+      {
+        // C ← CORRECTA
+        texto: "Eran escasos, aceptados por todos y difíciles de falsificar o producir en exceso",
+        correcto: true,
+        feedback: "¡Correcto! Esas son las propiedades del buen dinero. Escasez + aceptación universal + resistencia a la falsificación. Guarda esa lista — la vas a necesitar. 🍫",
       },
     ],
   },
@@ -90,19 +92,20 @@ Conveniente. Práctico. Y el inicio de algo que cambiaría todo para siempre.`,
     pregunta: "¿Por qué el oro y la plata se convirtieron en el dinero preferido del mundo?",
     opciones: [
       {
-        texto: "Porque el rey los eligió y obligó a todos a usarlos",
+        texto: "Porque son más brillantes y bonitos que las conchas o el cacao",
         correcto: false,
-        feedback: "En realidad, los metales preciosos se adoptaron orgánicamente en culturas que nunca tuvieron contacto entre sí. No necesitaron un decreto real.",
+        feedback: "La estética ayuda, pero no es suficiente para que algo sea dinero universal. El oro ganó por sus propiedades funcionales, no por cómo se ve.",
       },
       {
+        // B ← CORRECTA
         texto: "Son escasos, no se oxidan, se pueden dividir con precisión y tienen el mismo valor en cualquier parte del mundo",
         correcto: true,
         feedback: "¡Perfecto! Esas cuatro propiedades los hacían el dinero ideal. Curiosamente, Bitcoin comparte todas esas propiedades — y agrega algunas más. 🪙",
       },
       {
-        texto: "Porque son más brillantes y bonitos que las conchas o el cacao",
+        texto: "Porque el rey los eligió y obligó a todos a usarlos",
         correcto: false,
-        feedback: "La estética ayuda, pero no es suficiente para que algo sea dinero universal. El oro ganó por sus propiedades funcionales, no por cómo se ve.",
+        feedback: "En realidad, los metales preciosos se adoptaron orgánicamente en culturas que nunca tuvieron contacto entre sí. No necesitaron un decreto real.",
       },
     ],
   },
@@ -127,14 +130,15 @@ El dinero de papel resolvió el problema de cargar oro. Pero creó uno nuevo: qu
     pregunta: "¿Qué respalda el valor de un billete de $500 pesos mexicanos hoy?",
     opciones: [
       {
-        texto: "El oro guardado en las bóvedas del Banco de México",
-        correcto: false,
-        feedback: "Desde 1971, ninguna moneda importante del mundo está respaldada por oro. Eso se llama el 'patrón oro' y Nixon lo eliminó. Tu billete ya no representa metal.",
-      },
-      {
+        // A ← CORRECTA
         texto: "La confianza colectiva en el gobierno mexicano y en el Banco de México",
         correcto: true,
         feedback: "Exactamente. El dinero moderno es 'fiat' — su valor existe porque colectivamente acordamos que existe. Si esa confianza se rompe, como en Venezuela o Argentina, el dinero colapsa. 💵",
+      },
+      {
+        texto: "El oro guardado en las bóvedas del Banco de México",
+        correcto: false,
+        feedback: "Desde 1971, ninguna moneda importante del mundo está respaldada por oro. Eso se llama el 'patrón oro' y Nixon lo eliminó. Tu billete ya no representa metal.",
       },
       {
         texto: "El trabajo y la productividad de los mexicanos que lo ganan",
@@ -169,14 +173,15 @@ No era solo tecnología. Era una respuesta a una pregunta de miles de años: ¿p
         feedback: "Son muy distintos. Tu dinero bancario es un número en la base de datos de alguien más. Bitcoin es un protocolo matemático que nadie controla.",
       },
       {
-        texto: "Con Bitcoin tú controlas tu dinero directamente; con el banco, el banco lo controla — tú solo tienes una promesa",
-        correcto: true,
-        feedback: "¡Exactamente! 'Not your keys, not your coins' es el principio central. Con Bitcoin, si tienes tus llaves privadas, nadie puede bloquear tu dinero. Con el banco, estás a merced de sus políticas. 📱⚡",
-      },
-      {
         texto: "Bitcoin es para ricos e inversores; el banco es para todos",
         correcto: false,
         feedback: "Bitcoin fue diseñado específicamente para personas sin acceso al sistema bancario. Puedes tener Bitcoin con solo un smartphone y conexión a internet — sin cuenta bancaria, sin identificación, sin permiso.",
+      },
+      {
+        // C ← CORRECTA
+        texto: "Con Bitcoin tú controlas tu dinero directamente; con el banco, el banco lo controla — tú solo tienes una promesa",
+        correcto: true,
+        feedback: "¡Exactamente! 'Not your keys, not your coins' es el principio central. Con Bitcoin, si tienes tus llaves privadas, nadie puede bloquear tu dinero. Con el banco, estás a merced de sus políticas. 📱⚡",
       },
     ],
   },
