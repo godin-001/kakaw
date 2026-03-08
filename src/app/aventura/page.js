@@ -1,6 +1,7 @@
 'use client'
 import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
+import { usePrivy } from '@privy-io/react-auth'
 import { escenarios, cierre } from '@/data/escenarios'
 import KakawPixel from '@/components/KakawPixel'
 import {
@@ -15,6 +16,7 @@ const FASES = { INTRO: 'intro', ESCENARIO: 'escenario', RESULTADO: 'resultado', 
 
 export default function AventuraPage() {
   const router = useRouter()
+  const { ready, authenticated } = usePrivy()
   const [fase, setFase] = useState(FASES.INTRO)
   const [escenarioIdx, setEscenarioIdx] = useState(0)
   const [eleccion, setEleccion] = useState(null)
@@ -22,9 +24,15 @@ export default function AventuraPage() {
   const [satsEscenarios, setSatsEscenarios] = useState(0)
 
   useEffect(() => {
+    if (ready && !authenticated) router.replace('/auth')
+  }, [ready, authenticated, router])
+
+  useEffect(() => {
     const p = cargarProgreso()
     setSatsBase(p.satsGanados)
   }, [])
+
+  if (!ready || !authenticated) return null
 
   const escenario = escenarios[escenarioIdx]
   const totalEscenarios = escenarios.length
@@ -50,7 +58,8 @@ export default function AventuraPage() {
 
   function irAResultados() {
     completarAventura()
-    router.push('/resultado')
+    // Reward final: muestra lo ganado y el botón para ver el código de canje
+    window.location.href = `/reward?slug=aventura&sats=${satsEscenarios}&final=1`
   }
 
   // — INTRO —

@@ -1,6 +1,7 @@
 'use client'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useParams, useRouter } from 'next/navigation'
+import { usePrivy } from '@privy-io/react-auth'
 import { modulos } from '@/data/modulos'
 import KakawPixel from '@/components/KakawPixel'
 import { completarModulo, SATS_QUIZ_CORRECTO, SATS_MODULO_BONUS } from '@/lib/progreso'
@@ -8,11 +9,19 @@ import { completarModulo, SATS_QUIZ_CORRECTO, SATS_MODULO_BONUS } from '@/lib/pr
 export default function QuizPage() {
   const { slug } = useParams()
   const router = useRouter()
+  const { ready, authenticated } = usePrivy()
   const [opcionElegida, setOpcionElegida] = useState(null)
   const [mostrarFeedback, setMostrarFeedback] = useState(false)
   const [mostrarSats, setMostrarSats] = useState(false)
 
+  useEffect(() => {
+    if (ready && !authenticated) router.replace('/auth')
+  }, [ready, authenticated, router])
+
   const modulo = modulos.find(m => m.slug === slug)
+
+  if (!ready || !authenticated) return null
+
   if (!modulo) {
     router.push('/')
     return null
@@ -34,9 +43,10 @@ export default function QuizPage() {
     }
   }
 
-  // Fuerza recarga completa del board para que lea el localStorage fresco
+  // Redirige al reward con los sats ganados, luego el reward vuelve al board
   function continuar() {
-    window.location.href = '/'
+    const satsGanados = correcto ? SATS_QUIZ_CORRECTO + SATS_MODULO_BONUS : 0
+    window.location.href = `/reward?slug=${slug}&sats=${satsGanados}`
   }
 
   const correcto = opcionElegida !== null && modulo.opciones[opcionElegida].correcto

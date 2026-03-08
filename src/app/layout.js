@@ -1,4 +1,5 @@
 import { Press_Start_2P, VT323, Space_Grotesk } from 'next/font/google'
+import PrivyClientProvider from '@/components/PrivyClientProvider'
 import './globals.css'
 
 const pressStart = Press_Start_2P({
@@ -31,7 +32,9 @@ export default function RootLayout({ children }) {
   return (
     <html lang="es" className={`${pressStart.variable} ${vt323.variable} ${spaceGrotesk.variable}`}>
       <body className="min-h-screen text-amber-50" style={{ fontFamily: 'var(--font-space), system-ui, sans-serif' }}>
-        {children}
+        <PrivyClientProvider>
+          {children}
+        </PrivyClientProvider>
       </body>
     </html>
   )

@@ -2,6 +2,7 @@
 import { useState, useEffect } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { Suspense } from 'react'
+import { usePrivy } from '@privy-io/react-auth'
 import KakawPixel from '@/components/KakawPixel'
 import ModuleIcon from '@/components/ModuleIcon'
 import PixelBg from '@/components/PixelBg'
@@ -9,11 +10,11 @@ import { modulos } from '@/data/modulos'
 import { cargarProgreso, resetearProgreso } from '@/lib/progreso'
 
 const AVENTURA_TEMA = {
-  accent: '#A855F7',
-  nodoBg: '#581C87',
-  nodoBorder: '#A855F7',
-  sombra: 'rgba(168, 85, 247, 0.4)',
-  texto: '#E9D5FF',
+  accent: '#F59E0B',
+  nodoBg: '#92400E',
+  nodoBorder: '#F59E0B',
+  sombra: 'rgba(245,158,11,0.4)',
+  texto: '#FEF3C7',
 }
 
 const ITEMS = [
@@ -21,17 +22,22 @@ const ITEMS = [
   { tipo: 'aventura', id: 7, slug: 'aventura', titulo: 'Mueve tu Lana', tema: AVENTURA_TEMA },
 ]
 
-// Offset lateral desde el centro (px)
-const OFFSET_X = [-28, 28, -28, 28, -28, 28, 0]
+// Alternating left/right offsets for the sinuous path
+// negative = bar leans left, positive = bar leans right
+const SIDE = ['right', 'left', 'right', 'left', 'right', 'left', 'center']
 
 function BoardContent() {
   const router = useRouter()
   const searchParams = useSearchParams()
+  const { ready, authenticated, logout, user } = usePrivy()
   const [progreso, setProgreso] = useState(null)
-  const [mostrarBienvenida, setMostrarBienvenida] = useState(false)
+
+  // Auth guard
+  useEffect(() => {
+    if (ready && !authenticated) router.replace('/auth')
+  }, [ready, authenticated, router])
 
   useEffect(() => {
-    // Reset secreto para testing: /?reset=1
     if (searchParams.get('reset') === '1') {
       resetearProgreso()
       window.location.href = '/'
@@ -39,12 +45,9 @@ function BoardContent() {
     }
     const p = cargarProgreso()
     setProgreso(p)
-    if (p.modulosCompletados.length === 0 && !p.aventuraCompletada) {
-      setMostrarBienvenida(true)
-    }
   }, [searchParams])
 
-  if (!progreso) return null
+  if (!ready || !authenticated || !progreso) return null
 
   const completados = progreso.modulosCompletados || []
   const aventuraCompletada = progreso.aventuraCompletada || false
@@ -60,7 +63,7 @@ function BoardContent() {
 
   const todoCompleto = currentIdx >= ITEMS.length
 
-  function handleNodeClick(item, idx) {
+  function handleBarClick(item, idx) {
     if (idx > currentIdx) return
     if (item.tipo === 'modulo') router.push(`/modulo/${item.slug}`)
     if (item.tipo === 'aventura') router.push('/aventura')
@@ -73,6 +76,8 @@ function BoardContent() {
     if (idx > currentIdx) return 'bloqueado'
     return 'completado'
   }
+
+  const userEmail = user?.email?.address || user?.google?.email || ''
 
   return (
     <>
@@ -88,194 +93,230 @@ function BoardContent() {
           >
             KAKAW
           </h1>
-          <div className="sats-badge" style={{ fontFamily: 'var(--font-pixel)', fontSize: '10px' }}>
-            <span>⚡</span>
-            <span>{progreso.satsGanados}</span>
+          <div className="flex items-center gap-3">
+            <div className="sats-badge" style={{ fontFamily: 'var(--font-pixel)', fontSize: '10px' }}>
+              <span>⚡</span>
+              <span>{progreso.satsGanados}</span>
+            </div>
+            <button
+              onClick={logout}
+              title={userEmail}
+              className="w-8 h-8 rounded-full flex items-center justify-center"
+              style={{ background: 'rgba(255,255,255,0.1)', border: '1.5px solid rgba(255,255,255,0.2)' }}
+            >
+              <UserIcon />
+            </button>
           </div>
         </div>
-        <p className="text-xs text-center uppercase tracking-widest mb-6" style={{ color: 'rgba(255,255,255,0.35)', fontFamily: 'var(--font-pixel)', fontSize: '8px' }}>
+        <p className="text-center uppercase tracking-widest mb-8" style={{ color: 'rgba(255,255,255,0.35)', fontFamily: 'var(--font-pixel)', fontSize: '8px' }}>
           La Historia del Dinero
         </p>
 
-        {/* Banner bienvenida */}
-        {mostrarBienvenida && (
-          <div
-            className="rounded-2xl border p-5 mb-6 text-center space-y-4"
-            style={{ background: 'rgba(14,8,0,0.85)', borderColor: 'rgba(249,115,22,0.4)', backdropFilter: 'blur(4px)' }}
-          >
-            <div className="flex justify-center">
-              <KakawPixel mood="happy" size={90} />
-            </div>
-            <div>
-              <p className="font-black text-xl text-white">¡Hola! Soy Kakaw</p>
-              <p className="text-amber-300 text-sm leading-relaxed mt-2">
-                Soy un grano de cacao que ha visto todo — desde el trueque hasta Bitcoin.
-                Vamos a recorrer 5,000 años de historia del dinero juntos.
-              </p>
-              <p className="text-orange-400 text-xs font-bold mt-2">
-                Responde bien y gana sats reales ⚡
-              </p>
-            </div>
-            <button onClick={() => setMostrarBienvenida(false)} className="btn-primary w-full">
-              ¡Empezamos! →
-            </button>
-          </div>
-        )}
+        {/* ── SINUOUS PATH ── */}
+        <div className="relative flex flex-col items-center gap-0">
+          {ITEMS.map((item, idx) => {
+            const estado = getEstado(item, idx)
+            const completado = estado === 'completado'
+            const actual = estado === 'actual'
+            const bloqueado = estado === 'bloqueado'
+            const tema = item.tema || modulos.find(m => m.slug === item.slug)?.tema || {}
+            const side = SIDE[idx] ?? 'center'
 
-        {/* Path */}
-        {!mostrarBienvenida && (
-          <div className="relative flex flex-col items-center">
+            // Bar colors
+            const barBg = bloqueado
+              ? 'rgba(255,255,255,0.08)'
+              : actual
+              ? 'linear-gradient(90deg, #F59E0B, #F97316)'
+              : `linear-gradient(90deg, ${tema.nodoBg || '#1a2a3a'}, ${tema.accent || '#F97316'})`
 
-            {/* Línea vertical central */}
-            <div
-              className="absolute z-0 w-0.5"
-              style={{ top: 34, bottom: 34, left: '50%', transform: 'translateX(-50%)', background: 'rgba(255,255,255,0.15)' }}
-            />
+            const barBorder = bloqueado
+              ? 'rgba(255,255,255,0.08)'
+              : actual
+              ? '#F59E0B'
+              : tema.accent || '#F97316'
 
-            {ITEMS.map((item, idx) => {
-              const estado = getEstado(item, idx)
-              const completado = estado === 'completado'
-              const actual = estado === 'actual'
-              const bloqueado = estado === 'bloqueado'
-              const tema = item.tema || {}
-              const offsetX = OFFSET_X[idx] ?? 0
-              const isLeft = offsetX < 0   // node shifts left → name goes right
-              const isRight = offsetX >= 0  // node shifts right or center → name goes left
+            const offsetClass = side === 'right'
+              ? 'mr-auto ml-4'
+              : side === 'left'
+              ? 'ml-auto mr-4'
+              : 'mx-auto'
 
-              const nodoStyle = bloqueado
-                ? { background: 'rgba(0,0,0,0.4)', borderColor: 'rgba(255,255,255,0.1)' }
-                : completado
-                ? { background: tema.nodoBg, borderColor: tema.nodoBorder, boxShadow: `0 0 16px ${tema.sombra}` }
-                : actual
-                ? { background: 'rgba(14,8,0,0.7)', borderColor: tema.accent, boxShadow: `0 0 24px ${tema.sombra}` }
-                : {}
+            return (
+              <div key={item.id} className="w-full flex flex-col items-center">
 
-              return (
-                <div key={item.id} className="flex flex-col items-center z-10 mb-1 w-full">
-
-                  {/* Fila: nombre AL LADO del nodo */}
+                {/* Level bar */}
+                <button
+                  onClick={() => handleBarClick(item, idx)}
+                  disabled={bloqueado}
+                  className={`relative flex items-center gap-3 rounded-2xl px-4 py-3 w-[88%] transition-all duration-300 ${offsetClass} ${actual ? 'scale-105' : ''} ${bloqueado ? 'cursor-not-allowed' : 'cursor-pointer hover:brightness-110 active:scale-95'}`}
+                  style={{
+                    background: barBg,
+                    border: `2px solid ${barBorder}`,
+                    boxShadow: actual ? `0 0 20px ${tema.sombra || 'rgba(245,158,11,0.4)'}` : 'none',
+                    opacity: bloqueado ? 0.4 : 1,
+                  }}
+                >
+                  {/* Icon */}
                   <div
-                    className="flex items-center w-full"
-                    style={{ transform: `translateX(${offsetX}px)`, justifyContent: isLeft ? 'flex-start' : 'flex-end' }}
+                    className="w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0"
+                    style={{ background: 'rgba(0,0,0,0.25)' }}
                   >
-                    {/* Nodo a izquierda → nombre a la DERECHA */}
-                    {isLeft && (
-                      <>
-                        {/* Nodo */}
-                        <button
-                          onClick={() => handleNodeClick(item, idx)}
-                          disabled={bloqueado}
-                          style={nodoStyle}
-                          className={`relative flex items-center justify-center w-16 h-16 rounded-full border-[3px] flex-shrink-0 transition-all duration-300 ${actual ? 'scale-110' : ''} ${!bloqueado ? 'cursor-pointer hover:scale-105' : 'cursor-not-allowed opacity-30'}`}
-                        >
-                          {bloqueado
-                            ? <span style={{ imageRendering: 'pixelated', fontSize: '20px' }}>🔒</span>
-                            : <ModuleIcon slug={item.slug || item.tipo === 'aventura' ? 'aventura' : item.slug} size={32} />
-                          }
-                          {completado && (
-                            <span className="absolute -top-1 -right-1 w-5 h-5 rounded-full flex items-center justify-center text-[10px] font-black text-white" style={{ background: '#22C55E' }}>✓</span>
-                          )}
-                        </button>
+                    <ModuleIcon slug={item.tipo === 'aventura' ? 'aventura' : item.slug} size={24} />
+                  </div>
 
-                        {/* Nombre a la derecha */}
-                        <div className="ml-3 flex flex-col">
-                          <p
-                            className="font-semibold leading-tight"
-                            style={{
-                              fontSize: '17px',
-                              color: completado ? tema.accent : actual ? '#FFFEF5' : 'rgba(255,255,255,0.25)',
-                            }}
-                          >
-                            {item.titulo}
-                          </p>
-                          {completado && item.tipo === 'modulo' && (
-                            <p className="text-xs font-bold mt-0.5" style={{ color: tema.accent }}>+71 ⚡</p>
-                          )}
-                        </div>
-
-                        {/* Kakaw al extremo derecho cuando es actual */}
-                        {actual && (
-                          <div className="ml-3 flex-shrink-0">
-                            <KakawPixel mood="happy" size={52} />
-                          </div>
-                        )}
-                      </>
+                  {/* Text */}
+                  <div className="flex-1 text-left">
+                    <p
+                      className="font-bold leading-tight"
+                      style={{
+                        fontSize: '13px',
+                        color: bloqueado ? 'rgba(255,255,255,0.4)' : '#fff',
+                        fontFamily: 'var(--font-space)',
+                      }}
+                    >
+                      {item.titulo}
+                    </p>
+                    {completado && (
+                      <p className="text-xs mt-0.5" style={{ color: 'rgba(255,255,255,0.7)', fontFamily: 'var(--font-space)' }}>
+                        Completado · +71 ⚡
+                      </p>
                     )}
-
-                    {/* Nodo a derecha → nombre a la IZQUIERDA */}
-                    {isRight && (
-                      <>
-                        {/* Kakaw al extremo izquierdo cuando es actual */}
-                        {actual && (
-                          <div className="mr-3 flex-shrink-0">
-                            <KakawPixel mood="happy" size={52} />
-                          </div>
-                        )}
-
-                        {/* Nombre a la izquierda */}
-                        <div className="mr-3 flex flex-col items-end">
-                          <p
-                            className="font-semibold leading-tight text-right"
-                            style={{
-                              fontSize: '17px',
-                              color: completado ? tema.accent : actual ? '#FFFEF5' : 'rgba(255,255,255,0.25)',
-                            }}
-                          >
-                            {item.titulo}
-                          </p>
-                          {completado && item.tipo === 'modulo' && (
-                            <p className="text-xs font-bold mt-0.5" style={{ color: tema.accent }}>+71 ⚡</p>
-                          )}
-                        </div>
-
-                        {/* Nodo */}
-                        <button
-                          onClick={() => handleNodeClick(item, idx)}
-                          disabled={bloqueado}
-                          style={nodoStyle}
-                          className={`relative flex items-center justify-center w-16 h-16 rounded-full border-[3px] flex-shrink-0 transition-all duration-300 ${actual ? 'scale-110' : ''} ${!bloqueado ? 'cursor-pointer hover:scale-105' : 'cursor-not-allowed opacity-30'}`}
-                        >
-                          {bloqueado
-                            ? <span style={{ imageRendering: 'pixelated', fontSize: '20px' }}>🔒</span>
-                            : <ModuleIcon slug={item.tipo === 'aventura' ? 'aventura' : item.slug} size={32} />
-                          }
-                          {completado && (
-                            <span className="absolute -top-1 -right-1 w-5 h-5 rounded-full flex items-center justify-center text-[10px] font-black text-white" style={{ background: '#22C55E' }}>✓</span>
-                          )}
-                        </button>
-                      </>
+                    {actual && (
+                      <p className="text-xs mt-0.5" style={{ color: 'rgba(255,255,255,0.85)', fontFamily: 'var(--font-space)' }}>
+                        ¡Tu turno!
+                      </p>
+                    )}
+                    {bloqueado && (
+                      <p className="text-xs mt-0.5" style={{ color: 'rgba(255,255,255,0.3)', fontFamily: 'var(--font-space)' }}>
+                        Bloqueado
+                      </p>
                     )}
                   </div>
 
-                  {/* Conector */}
-                  {idx < ITEMS.length - 1 && (
-                    <div className="h-6 w-0.5 mt-1" style={{ background: 'rgba(255,255,255,0.15)' }} />
+                  {/* Kakaw on active bar */}
+                  {actual && (
+                    <div className="flex-shrink-0">
+                      <KakawPixel mood="happy" size={44} />
+                    </div>
                   )}
-                </div>
-              )
-            })}
-          </div>
-        )}
+
+                  {/* Checkmark on completed */}
+                  {completado && (
+                    <div
+                      className="w-7 h-7 rounded-full flex items-center justify-center flex-shrink-0 font-black text-sm text-white"
+                      style={{ background: '#22C55E' }}
+                    >
+                      ✓
+                    </div>
+                  )}
+
+                  {/* Lock icon on blocked */}
+                  {bloqueado && (
+                    <PixelLock />
+                  )}
+                </button>
+
+                {/* Curved connector between levels */}
+                {idx < ITEMS.length - 1 && (
+                  <CurveConnector fromSide={SIDE[idx]} toSide={SIDE[idx + 1]} />
+                )}
+              </div>
+            )
+          })}
+        </div>
+
+        {/* Finish flag */}
+        <div className="flex flex-col items-center mt-4 mb-2">
+          <FinishFlag done={todoCompleto} />
+        </div>
 
         {/* Todo completo */}
         {todoCompleto && (
-          <div className="mt-8 rounded-2xl border p-6 text-center space-y-4" style={{ background: 'rgba(14,8,0,0.85)', borderColor: 'rgba(249,115,22,0.4)', backdropFilter: 'blur(4px)' }}>
-            <div className="flex justify-center"><KakawPixel mood="happy" size={90} /></div>
+          <div className="mt-4 rounded-2xl border p-6 text-center space-y-4" style={{ background: 'rgba(14,8,0,0.85)', borderColor: 'rgba(249,115,22,0.4)' }}>
+            <div className="flex justify-center"><KakawPixel mood="happy" size={80} /></div>
             <div>
-              <p className="text-2xl font-black text-orange-400">¡Lo lograste!</p>
-              <p className="text-amber-300 text-sm mt-1">Ganaste {progreso.satsGanados} sats ⚡</p>
+              <p className="text-xl font-black" style={{ color: '#F97316' }}>¡Lo lograste!</p>
+              <p className="text-sm mt-1" style={{ color: '#FCD34D' }}>Ganaste {progreso.satsGanados} sats ⚡</p>
             </div>
-            <button onClick={() => router.push('/resultado')} className="btn-primary w-full">
+            <button
+              onClick={() => router.push('/resultado')}
+              className="w-full py-3 rounded-xl font-bold text-sm"
+              style={{ background: 'linear-gradient(135deg, #F97316, #EA580C)', color: '#fff', fontFamily: 'var(--font-space)' }}
+            >
               Ver mi resultado →
             </button>
           </div>
         )}
 
         <footer className="mt-10 text-center text-xs pb-6" style={{ color: 'rgba(255,255,255,0.2)', fontFamily: 'var(--font-pixel)', fontSize: '7px', lineHeight: '1.8' }}>
-          HECHO CON 🍫<br />BITCOIN HACKATHON MÉXICO 2026<br />AUREO + ACEPTA BITCOIN
+          HECHO CON CACAO<br />BITCOIN HACKATHON MÉXICO 2026<br />AUREO + ACEPTA BITCOIN
         </footer>
       </main>
     </>
+  )
+}
+
+// ── Sub-components ──
+
+function CurveConnector({ fromSide, toSide }) {
+  // Shows a curved SVG connector between two bars
+  // fromSide/toSide: 'left' | 'right' | 'center'
+  const fromX = fromSide === 'right' ? 30 : fromSide === 'left' ? 70 : 50
+  const toX = toSide === 'right' ? 30 : toSide === 'left' ? 70 : 50
+
+  return (
+    <svg width="100%" height="36" viewBox="0 0 100 36" preserveAspectRatio="none" style={{ opacity: 0.3 }}>
+      <path
+        d={`M ${fromX} 0 C ${fromX} 18, ${toX} 18, ${toX} 36`}
+        fill="none"
+        stroke="rgba(255,255,255,0.6)"
+        strokeWidth="2"
+        strokeDasharray="4 3"
+      />
+    </svg>
+  )
+}
+
+function PixelLock() {
+  return (
+    <svg width="18" height="20" viewBox="0 0 18 20" style={{ imageRendering: 'pixelated', flexShrink: 0 }}>
+      <rect x="4" y="8" width="10" height="10" rx="2" fill="rgba(255,255,255,0.3)" />
+      <rect x="6" y="4" width="6" height="6" rx="3" fill="none" stroke="rgba(255,255,255,0.3)" strokeWidth="2" />
+      <rect x="8" y="11" width="2" height="4" rx="1" fill="rgba(255,255,255,0.5)" />
+    </svg>
+  )
+}
+
+function FinishFlag({ done }) {
+  return (
+    <div className="flex flex-col items-center gap-1 opacity-60">
+      <svg width="24" height="28" viewBox="0 0 24 28" style={{ imageRendering: 'pixelated' }}>
+        {/* pole */}
+        <rect x="4" y="0" width="2" height="28" fill={done ? '#F59E0B' : 'rgba(255,255,255,0.4)'} />
+        {/* flag checkerboard 4x3 */}
+        {[0,1,2,3].map(col => [0,1,2].map(row => (
+          <rect
+            key={`${col}-${row}`}
+            x={6 + col * 4} y={2 + row * 4} width="4" height="4"
+            fill={(col + row) % 2 === 0
+              ? (done ? '#F59E0B' : 'rgba(255,255,255,0.7)')
+              : 'rgba(0,0,0,0.3)'}
+          />
+        )))}
+      </svg>
+      <p style={{ fontFamily: 'var(--font-pixel)', fontSize: '7px', color: done ? '#F59E0B' : 'rgba(255,255,255,0.4)' }}>
+        {done ? 'FIN' : 'META'}
+      </p>
+    </div>
+  )
+}
+
+function UserIcon() {
+  return (
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+      <circle cx="12" cy="8" r="4" fill="rgba(255,255,255,0.6)" />
+      <path d="M4 20c0-4 3.6-7 8-7s8 3 8 7" fill="rgba(255,255,255,0.6)" />
+    </svg>
   )
 }
 

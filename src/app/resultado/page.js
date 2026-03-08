@@ -1,6 +1,8 @@
 'use client'
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
+import { useRouter } from 'next/navigation'
+import { usePrivy } from '@privy-io/react-auth'
 import Kakaw from '@/components/Kakaw'
 import { modulos } from '@/data/modulos'
 import { cargarProgreso, resetearProgreso, generarCodigoRedención } from '@/lib/progreso'
@@ -8,9 +10,15 @@ import { cargarProgreso, resetearProgreso, generarCodigoRedención } from '@/lib
 const MAX_SATS = 6 * (21 + 50) + 3 * 100 + 210 // 636 + 210 = 636
 
 export default function ResultadoPage() {
+  const router = useRouter()
+  const { ready, authenticated } = usePrivy()
   const [progreso, setProgreso] = useState(null)
   const [codigo, setCodigo] = useState('')
   const [copiado, setCopiado] = useState(false)
+
+  useEffect(() => {
+    if (ready && !authenticated) router.replace('/auth')
+  }, [ready, authenticated, router])
 
   useEffect(() => {
     const p = cargarProgreso()

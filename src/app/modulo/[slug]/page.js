@@ -1,12 +1,22 @@
 'use client'
+import { useEffect } from 'react'
 import { useParams, useRouter } from 'next/navigation'
+import { usePrivy } from '@privy-io/react-auth'
 import { modulos } from '@/data/modulos'
 import KakawPixel from '@/components/KakawPixel'
 
 export default function ModuloPage() {
   const { slug } = useParams()
   const router = useRouter()
+  const { ready, authenticated } = usePrivy()
+
+  useEffect(() => {
+    if (ready && !authenticated) router.replace('/auth')
+  }, [ready, authenticated, router])
+
   const modulo = modulos.find(m => m.slug === slug)
+
+  if (!ready || !authenticated) return null
 
   if (!modulo) {
     router.push('/')
