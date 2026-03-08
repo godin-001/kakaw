@@ -2,6 +2,9 @@
 import { useState, useEffect } from 'react'
 import { PrivyProvider } from '@privy-io/react-auth'
 
+// Fallback hardcoded in case the env var isn't injected at build time
+const PRIVY_APP_ID = process.env.NEXT_PUBLIC_PRIVY_APP_ID || 'cmmh3l0a000c20ckvic2wluvg'
+
 export default function PrivyClientProvider({ children }) {
   const [mounted, setMounted] = useState(false)
 
@@ -9,39 +12,16 @@ export default function PrivyClientProvider({ children }) {
     setMounted(true)
   }, [])
 
-  // Don't render Privy on server — wait for client mount
-  if (!mounted) {
-    return (
-      <div
-        style={{
-          minHeight: '100vh',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          background: '#5BC0E8',
-          fontFamily: 'monospace',
-          color: '#1a3a5c',
-          fontSize: '12px',
-          letterSpacing: '0.1em',
-        }}
-      >
-        KAKAW...
-      </div>
-    )
-  }
+  if (!mounted) return null
 
   return (
     <PrivyProvider
-      appId={process.env.NEXT_PUBLIC_PRIVY_APP_ID}
+      appId={PRIVY_APP_ID}
       config={{
         loginMethods: ['email', 'google-oauth'],
         appearance: {
           theme: 'dark',
           accentColor: '#F97316',
-          showWalletLoginFirst: false,
-        },
-        embeddedWallets: {
-          createOnLogin: 'off',
         },
       }}
     >
