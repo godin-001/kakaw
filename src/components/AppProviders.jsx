@@ -1,11 +1,5 @@
 'use client'
-import dynamic from 'next/dynamic'
-
-// Privy requires client-only rendering — no SSR
-const PrivyClientProvider = dynamic(
-  () => import('./PrivyClientProvider'),
-  { ssr: false }
-)
+import PrivyClientProvider from './PrivyClientProvider'
 
 export default function AppProviders({ children }) {
   return <PrivyClientProvider>{children}</PrivyClientProvider>
